@@ -11,21 +11,24 @@ export default function HeroVideo() {
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    video.play().catch(() => {});
+    
+    // Forzar explícitamente el muteo para evadir bloqueos de navegadores móviles
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+    
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        // Silently handle autoplay prevention (e.g., Low Power Mode)
+      });
+    }
   }, []);
 
   return (
     <section className="relative w-full h-[100svh] min-h-[600px] overflow-hidden bg-black">
 
-      <motion.video
-        ref={videoRef}
-        src="/videos/hero-runway.mp4"
-        poster="/images/hero-poster.jpg"
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="metadata"
+      <motion.div
         initial={{ scale: 1.06, opacity: 0 }}
         animate={{ scale: 1.0, opacity: 0.9 }}
         transition={{ duration: 5, ease: "easeOut" }}
@@ -34,10 +37,24 @@ export default function HeroVideo() {
           inset: 0,
           width: "100%",
           height: "100%",
-          objectFit: "cover",
-          objectPosition: "center 20%",
         }}
-      />
+      >
+        <video
+          ref={videoRef}
+          src="/videos/hero-runway.mp4"
+          poster="/images/hero-poster.jpg"
+          autoPlay
+          loop
+          muted
+          playsInline
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            objectPosition: "center 20%",
+          }}
+        />
+      </motion.div>
 
       <div
         style={{
@@ -48,9 +65,7 @@ export default function HeroVideo() {
         }}
       />
 
-      {/* Uso de inline styles (vw) para garantizar que los márgenes NO sean ignorados por el compilador CSS */}
       <div className="absolute bottom-[18%] left-0 w-full z-10 text-white" style={{ paddingLeft: "6vw", paddingRight: "6vw" }}>
-        
         <div>
           <motion.p
             initial={{ opacity: 0, y: 24 }}
@@ -71,7 +86,6 @@ export default function HeroVideo() {
           </motion.h1>
         </div>
 
-        {/* Botón EXPLORAR con margen forzado con estilos inline */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
