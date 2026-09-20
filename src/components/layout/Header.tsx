@@ -11,17 +11,32 @@ import { NAV_LINKS } from "@/lib/constants";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const [lastScroll, setLastScroll] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
+  
   const pathname = usePathname();
   const openCart = useCartStore((s) => s.openCart);
   const itemCount = useCartStore((s) => s.itemCount());
   const wishlistCount = useWishlistStore((s) => s.ids.size);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 60);
+    const handleScroll = () => {
+      const currentScroll = window.scrollY;
+      setScrolled(currentScroll > 60);
+      
+      // Ocultar barra al hacer scroll hacia abajo, mostrar al subir
+      if (currentScroll > 150 && currentScroll > lastScroll && !menuOpen) {
+        setHidden(true);
+      } else {
+        setHidden(false);
+      }
+      setLastScroll(currentScroll);
+    };
+    
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [lastScroll, menuOpen]);
 
   useEffect(() => setMenuOpen(false), [pathname]);
 
@@ -34,7 +49,8 @@ export default function Header() {
       <header
         className={cn(
           "fixed top-0 left-0 w-full z-50 transition-all duration-500",
-          transparent ? "bg-transparent" : "bg-white/96 backdrop-blur-sm border-b border-black/8"
+          transparent ? "bg-transparent" : "bg-white/80 backdrop-blur-md border-b border-black/10",
+          hidden ? "-translate-y-full" : "translate-y-0"
         )}
       >
         <div className="w-full flex items-center justify-between h-16 md:h-24" style={{ paddingLeft: "6vw", paddingRight: "6vw" }}>
