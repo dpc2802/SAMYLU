@@ -1,4 +1,12 @@
-"use client";
+# -*- coding: utf-8 -*-
+"""Applies all pending changes to SAMYLÚ project files safely with correct UTF-8 encoding."""
+
+import os
+
+# ─────────────────────────────────────────────
+# 1. SLIDE-OVER CART — Premium redesign
+# ─────────────────────────────────────────────
+CART = r'''"use client";
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
@@ -257,3 +265,208 @@ export default function SlideOverCart() {
     </AnimatePresence>
   );
 }
+'''
+
+# ─────────────────────────────────────────────
+# 2. FOOTER — Fix symbols, add DPALACIOS, correct margins
+# ─────────────────────────────────────────────
+def fix_footer():
+    with open("src/components/layout/Footer.tsx", "r", encoding="utf-8") as f:
+        content = f.read()
+
+    # Fix copyright year and padding
+    content = content.replace("© 2025 SAMYLÚ", "© 2026 SAMYLÚ")
+    content = content.replace('"0 5vw"', '"0 6vw"')
+    content = content.replace("padding: \"0 5vw\"", "padding: \"0 6vw\"")
+
+    # Remove the broken DPALACIOS block if exists
+    import re
+    content = re.sub(r'\{/\* DPALACIOS Signature \*/\}.*?</footer>', '</footer>', content, flags=re.DOTALL)
+    content = content.replace('</footer>', '''
+      {/* DPALACIOS Signature */}
+      <div style={{ backgroundColor: "#000", borderTop: "1px solid #111", padding: "14px 6vw", textAlign: "center" }}>
+        <a
+          href="https://wa.me/573148883214?text=Hola,%20me%20gustar%C3%ADa%20cotizar%20el%20desarrollo%20de%20una%20tienda%20online%20como%20Samylu"
+          target="_blank"
+          rel="noreferrer"
+          style={{ fontSize: "9px", letterSpacing: "0.18em", textTransform: "uppercase", color: "#555", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "8px" }}
+        >
+          <span>Diseñado por</span>
+          <strong style={{ color: "#fff", fontWeight: 700, letterSpacing: "0.28em", fontSize: "10px" }}>DPALACIOS</strong>
+          <span style={{ fontSize: "12px", opacity: 0.5 }}>👆</span>
+        </a>
+      </div>
+    </footer>''')
+
+    with open("src/components/layout/Footer.tsx", "w", encoding="utf-8") as f:
+        f.write(content)
+    print("Footer fixed!")
+
+# ─────────────────────────────────────────────
+# 3. HEADER — Add search functionality
+# ─────────────────────────────────────────────
+def fix_header():
+    with open("src/components/layout/Header.tsx", "r", encoding="utf-8") as f:
+        content = f.read()
+
+    content = content.replace(
+        'import { usePathname } from "next/navigation";',
+        'import { usePathname, useRouter } from "next/navigation";'
+    )
+
+    content = content.replace(
+        '  const [menuOpen, setMenuOpen] = useState(false);',
+        '  const [menuOpen, setMenuOpen] = useState(false);\n  const [searchOpen, setSearchOpen] = useState(false);\n  const [searchQuery, setSearchQuery] = useState("");'
+    )
+
+    content = content.replace(
+        '  const pathname = usePathname();',
+        '  const pathname = usePathname();\n  const router = useRouter();'
+    )
+
+    content = content.replace(
+        '<button aria-label="Buscar" className={cn("hover:opacity-50 transition-opacity", col)}>',
+        '<button aria-label="Buscar" className={cn("hover:opacity-50 transition-opacity", col)} onClick={() => setSearchOpen(true)}>'
+    )
+
+    # Add search overlay before </> closing
+    search_overlay = '''
+      {/* Search Overlay */}
+      <AnimatePresence>
+        {searchOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            style={{ position: "fixed", inset: 0, zIndex: 50, background: "rgba(255,255,255,0.97)", backdropFilter: "blur(8px)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "24px" }}
+          >
+            <button
+              onClick={() => setSearchOpen(false)}
+              style={{ position: "absolute", top: "32px", right: "32px", background: "none", border: "none", cursor: "pointer", opacity: 0.5, transition: "opacity 0.2s" }}
+              onMouseEnter={e => (e.currentTarget.style.opacity = "1")}
+              onMouseLeave={e => (e.currentTarget.style.opacity = "0.5")}
+            >
+              <X size={28} strokeWidth={1.2} />
+            </button>
+
+            <form
+              onSubmit={e => {
+                e.preventDefault();
+                if (searchQuery.trim()) {
+                  setSearchOpen(false);
+                  router.push(`/shop?q=${encodeURIComponent(searchQuery)}`);
+                  setSearchQuery("");
+                }
+              }}
+              style={{ width: "100%", maxWidth: "600px", display: "flex", flexDirection: "column", alignItems: "center", gap: "32px" }}
+            >
+              <p style={{ fontSize: "9px", letterSpacing: "0.4em", textTransform: "uppercase", color: "#aaa", margin: 0 }}>
+                ¿Qué estás buscando?
+              </p>
+              <input
+                type="text"
+                autoFocus
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+                placeholder="Vestido, color, ocasión..."
+                style={{ width: "100%", textAlign: "center", background: "none", border: "none", borderBottom: "1px solid #ddd", paddingBottom: "16px", fontSize: "clamp(28px, 5vw, 52px)", fontFamily: "var(--font-serif)", fontStyle: "italic", color: "#000", outline: "none", transition: "border-color 0.3s" }}
+                onFocus={e => (e.currentTarget.style.borderColor = "#000")}
+                onBlur={e => (e.currentTarget.style.borderColor = "#ddd")}
+              />
+              <button
+                type="submit"
+                style={{ fontSize: "9px", letterSpacing: "0.3em", textTransform: "uppercase", background: "none", border: "1px solid #000", padding: "12px 32px", cursor: "pointer", transition: "all 0.2s", fontFamily: "inherit" }}
+                onMouseEnter={e => { e.currentTarget.style.background = "#000"; e.currentTarget.style.color = "#fff"; }}
+                onMouseLeave={e => { e.currentTarget.style.background = "none"; e.currentTarget.style.color = "#000"; }}
+              >
+                Buscar
+              </button>
+            </form>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>'''
+
+    content = content.replace('\n    </>', search_overlay)
+
+    with open("src/components/layout/Header.tsx", "w", encoding="utf-8") as f:
+        f.write(content)
+    print("Header fixed!")
+
+# ─────────────────────────────────────────────
+# 4. STATIC CATALOG — Fix symbols, add search filter
+# ─────────────────────────────────────────────
+def fix_catalog():
+    with open("src/components/shop/StaticCatalog.tsx", "r", encoding="utf-8") as f:
+        content = f.read()
+
+    # Add useSearchParams import
+    content = content.replace(
+        'import { motion, AnimatePresence } from "framer-motion";',
+        'import { motion, AnimatePresence } from "framer-motion";\nimport { useSearchParams } from "next/navigation";'
+    )
+
+    # Add state
+    content = content.replace(
+        'export default function StaticCatalog({ products: PRODUCTOS }: { products: ProductItem[] }) {',
+        'export default function StaticCatalog({ products: PRODUCTOS }: { products: ProductItem[] }) {\n  const searchParams = useSearchParams();\n  const searchQuery = searchParams.get("q");'
+    )
+
+    # Remove window-based useEffect, use searchParams
+    content = content.replace(
+        '  useEffect(() => {\n    // Read category from URL if present (e.g., ?categoria=vestidos)\n    if (typeof window !== "undefined") {\n      const params = new URLSearchParams(window.location.search);\n      const cat = params.get("categoria");\n      if (cat) {\n        setActiveCategory(cat);\n      }\n    }\n  }, []);',
+        '  useEffect(() => {\n    const cat = searchParams.get("categoria");\n    if (cat) setActiveCategory(cat);\n  }, [searchParams]);'
+    )
+
+    # Add search filter to filteredProducts
+    content = content.replace(
+        '  // Filter logic\n  const filteredProducts = PRODUCTOS.filter((p) => {',
+        '  // Filter logic\n  const filteredProducts = PRODUCTOS.filter((p) => {\n    if (searchQuery) {\n      const q = searchQuery.toLowerCase();\n      if (!p.name.toLowerCase().includes(q) && !p.type.toLowerCase().includes(q) && !p.description.toLowerCase().includes(q)) return false;\n    }'
+    )
+
+    # Fix COLECCIÓN label (broken encoding)
+    content = content.replace('Colecci\u0093n', 'Colección')
+    content = content.replace('Colecci?n', 'Colección')
+    content = content.replace('ColecciÃ³n', 'Colección')
+    content = content.replace('Toda la Colecci', 'Toda la Colección')
+
+    with open("src/components/shop/StaticCatalog.tsx", "w", encoding="utf-8") as f:
+        f.write(content)
+    print("StaticCatalog fixed!")
+
+# ─────────────────────────────────────────────
+# 5. SHOP PAGE — Add Suspense for useSearchParams
+# ─────────────────────────────────────────────
+def fix_shop_page():
+    path = "src/app/(storefront)/shop/page.tsx"
+    with open(path, "r", encoding="utf-8") as f:
+        content = f.read()
+
+    if "Suspense" not in content:
+        content = content.replace(
+            'import { getLiveProducts } from "@/db/queries/products";',
+            'import { getLiveProducts } from "@/db/queries/products";\nimport { Suspense } from "react";'
+        )
+        content = content.replace(
+            '<StaticCatalog products={liveProducts} />',
+            '<Suspense fallback={<div style={{padding:"60px", textAlign:"center", fontSize:"10px", letterSpacing:"0.2em", textTransform:"uppercase"}}>Cargando catálogo...</div>}>\n        <StaticCatalog products={liveProducts} />\n      </Suspense>'
+        )
+
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(content)
+    print("Shop page fixed!")
+
+
+# ── WRITE CART ──
+with open("src/components/layout/SlideOverCart.tsx", "w", encoding="utf-8") as f:
+    f.write(CART)
+print("SlideOverCart written!")
+
+# ── RUN ALL PATCHES ──
+fix_footer()
+fix_header()
+fix_catalog()
+fix_shop_page()
+
+print("\n✅ All files patched successfully!")

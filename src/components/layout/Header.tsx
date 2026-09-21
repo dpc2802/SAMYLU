@@ -87,11 +87,7 @@ export default function Header() {
           </nav>
 
           <div className="flex items-center gap-5 flex-shrink-0">
-            <button 
-              aria-label="Buscar" 
-              className={cn("hover:opacity-50 transition-opacity", col)}
-              onClick={() => setSearchOpen(true)}
-            >
+            <button aria-label="Buscar" className={cn("hover:opacity-50 transition-opacity", col)} onClick={() => setSearchOpen(true)}>
               <Search size={18} strokeWidth={1.5} />
             </button>
             <button aria-label="Mi cuenta" className={cn("hidden md:block hover:opacity-50 transition-opacity", col)}>
@@ -153,7 +149,7 @@ export default function Header() {
           </motion.div>
         )}
       </AnimatePresence>
-
+      {/* Search Overlay */}
       <AnimatePresence>
         {searchOpen && (
           <motion.div
@@ -161,17 +157,19 @@ export default function Header() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-50 bg-white/95 backdrop-blur-md flex flex-col items-center justify-center p-6"
+            style={{ position: "fixed", inset: 0, zIndex: 50, background: "rgba(255,255,255,0.97)", backdropFilter: "blur(8px)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "24px" }}
           >
-            <button 
+            <button
               onClick={() => setSearchOpen(false)}
-              className="absolute top-8 right-8 text-black hover:opacity-50 transition-opacity"
+              style={{ position: "absolute", top: "32px", right: "32px", background: "none", border: "none", cursor: "pointer", opacity: 0.5, transition: "opacity 0.2s" }}
+              onMouseEnter={e => (e.currentTarget.style.opacity = "1")}
+              onMouseLeave={e => (e.currentTarget.style.opacity = "0.5")}
             >
-              <X size={32} strokeWidth={1} />
+              <X size={28} strokeWidth={1.2} />
             </button>
-            
-            <form 
-              onSubmit={(e) => {
+
+            <form
+              onSubmit={e => {
                 e.preventDefault();
                 if (searchQuery.trim()) {
                   setSearchOpen(false);
@@ -179,20 +177,26 @@ export default function Header() {
                   setSearchQuery("");
                 }
               }}
-              className="w-full max-w-2xl flex flex-col items-center gap-8"
+              style={{ width: "100%", maxWidth: "600px", display: "flex", flexDirection: "column", alignItems: "center", gap: "32px" }}
             >
-              <p className="text-[10px] tracking-[0.3em] uppercase text-black/40">¿Qué estás buscando?</p>
-              <input 
-                type="text" 
+              <p style={{ fontSize: "9px", letterSpacing: "0.4em", textTransform: "uppercase", color: "#aaa", margin: 0 }}>
+                ¿Qué estás buscando?
+              </p>
+              <input
+                type="text"
                 autoFocus
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Ej. Vestido Rojo..."
-                className="w-full text-center bg-transparent border-b border-black/20 pb-4 text-4xl md:text-6xl font-serif italic text-black focus:outline-none focus:border-black transition-colors placeholder:text-black/10"
+                onChange={e => setSearchQuery(e.target.value)}
+                placeholder="Vestido, color, ocasión..."
+                style={{ width: "100%", textAlign: "center", background: "none", border: "none", borderBottom: "1px solid #ddd", paddingBottom: "16px", fontSize: "clamp(28px, 5vw, 52px)", fontFamily: "var(--font-serif)", fontStyle: "italic", color: "#000", outline: "none", transition: "border-color 0.3s" }}
+                onFocus={e => (e.currentTarget.style.borderColor = "#000")}
+                onBlur={e => (e.currentTarget.style.borderColor = "#ddd")}
               />
-              <button 
+              <button
                 type="submit"
-                className="text-[10px] tracking-[0.25em] uppercase border border-black px-8 py-3 hover:bg-black hover:text-white transition-colors"
+                style={{ fontSize: "9px", letterSpacing: "0.3em", textTransform: "uppercase", background: "none", border: "1px solid #000", padding: "12px 32px", cursor: "pointer", transition: "all 0.2s", fontFamily: "inherit" }}
+                onMouseEnter={e => { e.currentTarget.style.background = "#000"; e.currentTarget.style.color = "#fff"; }}
+                onMouseLeave={e => { e.currentTarget.style.background = "none"; e.currentTarget.style.color = "#000"; }}
               >
                 Buscar
               </button>

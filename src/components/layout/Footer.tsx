@@ -1,9 +1,9 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 
 export default function Footer() {
   return (
     <footer style={{ backgroundColor: "#050505", color: "#fff", paddingTop: "80px", paddingBottom: "40px", borderTop: "1px solid #222" }}>
-      <div style={{ padding: "0 5vw", display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: "60px", marginBottom: "80px" }}>
+      <div style={{ padding: "0 6vw", display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: "60px", marginBottom: "80px" }}>
         
         {/* Brand */}
         <div style={{ flex: "1 1 300px" }}>
@@ -55,29 +55,25 @@ export default function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div style={{ padding: "0 5vw", display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", borderTop: "1px solid #1a1a1a", paddingTop: "24px", paddingBottom: "24px", gap: "16px" }}>
-        <p style={{ fontSize: "10px", color: "#555", margin: 0 }}>&copy; 2026 SAMYLÚ by Martha Cepeda. Todos los derechos reservados.</p>
+      <div style={{ padding: "0 6vw", display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", borderTop: "1px solid #1a1a1a", paddingTop: "24px", gap: "16px" }}>
+        <p style={{ fontSize: "10px", color: "#555", margin: 0 }}>&copy; 2025 SAMYLÚ by Martha Cepeda. Todos los derechos reservados.</p>
         <div style={{ display: "flex", gap: "24px" }}>
           <Link href="/privacidad" style={{ fontSize: "10px", color: "#555", textDecoration: "none" }} className="hover:text-white transition-colors">Privacidad</Link>
           <Link href="/terminos" style={{ fontSize: "10px", color: "#555", textDecoration: "none" }} className="hover:text-white transition-colors">Términos</Link>
         </div>
       </div>
-
+    
       {/* DPALACIOS Signature */}
-      <div style={{ backgroundColor: "#000", borderTop: "1px solid #111", padding: "12px 5vw", textAlign: "center" }}>
-        <a 
+      <div style={{ backgroundColor: "#000", borderTop: "1px solid #111", padding: "14px 6vw", textAlign: "center" }}>
+        <a
           href="https://wa.me/573148883214?text=Hola,%20me%20gustar%C3%ADa%20cotizar%20el%20desarrollo%20de%20una%20tienda%20online%20como%20Samylu"
           target="_blank"
           rel="noreferrer"
-          style={{ fontSize: "9px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#666", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px" }}
-          className="hover:text-white transition-all group"
+          style={{ fontSize: "9px", letterSpacing: "0.18em", textTransform: "uppercase", color: "#555", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "8px" }}
         >
-          <span>
-            Diseñado por <strong style={{ color: "#fff", fontWeight: 600, letterSpacing: "0.25em" }}>DPALACIOS</strong>
-          </span>
-          <span className="opacity-50 group-hover:opacity-100 group-hover:-translate-y-0.5 transition-all text-[11px] ml-1">
-            👆
-          </span>
+          <span>Diseñado por</span>
+          <strong style={{ color: "#fff", fontWeight: 700, letterSpacing: "0.28em", fontSize: "10px" }}>DPALACIOS</strong>
+          <span style={{ fontSize: "12px", opacity: 0.5 }}>👆</span>
         </a>
       </div>
     </footer>
