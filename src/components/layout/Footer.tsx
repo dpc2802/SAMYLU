@@ -70,12 +70,13 @@ export default function Footer() {
           target="_blank"
           rel="noreferrer"
           style={{ fontSize: "9px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#666", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px" }}
-          className="hover:text-white transition-colors group"
+          className="hover:text-white transition-all group"
         >
-          <span>Diseñado por DPALACIOS</span>
-          <span style={{ color: "#333" }}>|</span>
-          <span style={{ borderBottom: "1px solid #444", paddingBottom: "2px" }} className="group-hover:border-white transition-colors">
-            Haz clic aquí para cotizar tu web 🚀
+          <span>
+            Diseñado por <strong style={{ color: "#fff", fontWeight: 600, letterSpacing: "0.25em" }}>DPALACIOS</strong>
+          </span>
+          <span className="opacity-50 group-hover:opacity-100 group-hover:-translate-y-0.5 transition-all text-[11px] ml-1">
+            👆
           </span>
         </a>
       </div>
