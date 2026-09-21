@@ -1,4 +1,4 @@
-﻿import { db } from "../index";
+import { db } from "../index";
 import { products, productImages, categories, productVariants } from "../schema";
 import { eq, desc } from "drizzle-orm";
 
@@ -21,7 +21,7 @@ export async function getLiveProducts() {
     name: p.name,
     slug: p.slug,
     price: Number(p.basePrice),
-    color: p.variants.length > 0 ? p.variants[0].color : "#000000",
+    color: p.variants.length > 0 ? (p.variants[0].color || "#000000") : "#000000",
     size: [...new Set(p.variants.map(v => v.size))],
     category: p.category?.name || "Sin Categoría",
     type: p.category?.slug || "vestidos",
@@ -51,7 +51,7 @@ export async function getLiveProductBySlug(slug: string) {
     name: product.name,
     slug: product.slug,
     price: Number(product.basePrice),
-    color: product.variants.length > 0 ? product.variants[0].color : "#000000",
+    color: product.variants.length > 0 ? (product.variants[0].color || "#000000") : "#000000",
     sizes: [...new Set(product.variants.map(v => v.size))],
     category: product.category?.name || "Sin Categoría",
     type: product.category?.slug || "vestidos",

@@ -169,7 +169,7 @@ export default function ProductClient({ initialProduct: product }: { initialProd
               </button>
             </div>
             <div style={{ display: "flex", gap: "8px" }}>
-              {(product.sizes || ["XS", "S", "M", "L"]).map(size => (
+              {(product.sizes || ["XS", "S", "M", "L"]).map((size: string) => (
                 <button 
                   key={size} 
                   className={`pdp-size-btn ${activeSize === size ? 'active' : ''}`}
