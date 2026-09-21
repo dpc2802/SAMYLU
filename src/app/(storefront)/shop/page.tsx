@@ -1,5 +1,6 @@
-﻿import StaticCatalog from "@/components/shop/StaticCatalog";
+import StaticCatalog from "@/components/shop/StaticCatalog";
 import { getLiveProducts } from "@/db/queries/products";
+import { Suspense } from "react";
 
 export default async function ShopPage() {
   const liveProducts = await getLiveProducts();
@@ -16,7 +17,9 @@ export default async function ShopPage() {
       </div>
 
       {/* Inject Live Data into the Catalog Component */}
-      <StaticCatalog products={liveProducts} />
+      <Suspense fallback={<div className="p-12 text-center text-xs tracking-widest uppercase">Cargando cat&aacute;logo...</div>}>
+        <StaticCatalog products={liveProducts} />
+      </Suspense>
     </div>
   );
 }

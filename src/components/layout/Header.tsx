@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, User, Heart, ShoppingBag, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -14,9 +14,12 @@ export default function Header() {
   const [hidden, setHidden] = useState(false);
   const [lastScroll, setLastScroll] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const [mounted, setMounted] = useState(false);
   
   const pathname = usePathname();
+  const router = useRouter();
   const openCart = useCartStore((s) => s.openCart);
   const itemCount = useCartStore((s) => s.itemCount());
   // El wishlist ahora es un array de strings porque cambiamos de Set a Array en store.ts
@@ -84,7 +87,11 @@ export default function Header() {
           </nav>
 
           <div className="flex items-center gap-5 flex-shrink-0">
-            <button aria-label="Buscar" className={cn("hover:opacity-50 transition-opacity", col)}>
+            <button 
+              aria-label="Buscar" 
+              className={cn("hover:opacity-50 transition-opacity", col)}
+              onClick={() => setSearchOpen(true)}
+            >
               <Search size={18} strokeWidth={1.5} />
             </button>
             <button aria-label="Mi cuenta" className={cn("hidden md:block hover:opacity-50 transition-opacity", col)}>
@@ -143,6 +150,53 @@ export default function Header() {
                 </Link>
               </motion.div>
             ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {searchOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-50 bg-white/95 backdrop-blur-md flex flex-col items-center justify-center p-6"
+          >
+            <button 
+              onClick={() => setSearchOpen(false)}
+              className="absolute top-8 right-8 text-black hover:opacity-50 transition-opacity"
+            >
+              <X size={32} strokeWidth={1} />
+            </button>
+            
+            <form 
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (searchQuery.trim()) {
+                  setSearchOpen(false);
+                  router.push(`/shop?q=${encodeURIComponent(searchQuery)}`);
+                  setSearchQuery("");
+                }
+              }}
+              className="w-full max-w-2xl flex flex-col items-center gap-8"
+            >
+              <p className="text-[10px] tracking-[0.3em] uppercase text-black/40">¿Qué estás buscando?</p>
+              <input 
+                type="text" 
+                autoFocus
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Ej. Vestido Rojo..."
+                className="w-full text-center bg-transparent border-b border-black/20 pb-4 text-4xl md:text-6xl font-serif italic text-black focus:outline-none focus:border-black transition-colors placeholder:text-black/10"
+              />
+              <button 
+                type="submit"
+                className="text-[10px] tracking-[0.25em] uppercase border border-black px-8 py-3 hover:bg-black hover:text-white transition-colors"
+              >
+                Buscar
+              </button>
+            </form>
           </motion.div>
         )}
       </AnimatePresence>

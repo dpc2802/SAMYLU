@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSearchParams } from "next/navigation";
 import { Heart, ChevronDown, ShoppingBag, X, SlidersHorizontal } from "lucide-react";
 
 export type ProductItem = {
@@ -21,7 +22,7 @@ export type ProductItem = {
 };
 
 const CATEGORIAS = [
-  { id: "todo", label: "Toda la Colección" },
+  { id: "todo", label: "Toda la ColecciÃ³n" },
   { id: "vestidos", label: "Vestidos" },
   { id: "conjuntos", label: "Conjuntos & Blusas" }
 ];
@@ -42,6 +43,8 @@ const formatPrice = (price: number) => {
 };
 
 export default function StaticCatalog({ products: PRODUCTOS }: { products: ProductItem[] }) {
+  const searchParams = useSearchParams();
+  const searchQuery = searchParams.get("q");
   // Mobile drawer state
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState("todo");
@@ -49,22 +52,18 @@ export default function StaticCatalog({ products: PRODUCTOS }: { products: Produ
   const [activeSize, setActiveSize] = useState<string | null>(null);
 
   useEffect(() => {
-    // Read category from URL if present (e.g., ?categoria=vestidos)
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      const cat = params.get("categoria");
-      if (cat) {
-        setActiveCategory(cat);
-      }
+    const cat = searchParams.get("categoria");
+    if (cat) {
+      setActiveCategory(cat);
     }
-  }, []);
+  }, [searchParams]);
   const [maxPrice, setMaxPrice] = useState(800000);
   const [liked, setLiked] = useState<Record<string, boolean>>({});
   const [sortBy, setSortBy] = useState("destacados");
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [visibleCount, setVisibleCount] = useState(9);
   
-  // Estado para el menú de filtros en móvil
+  // Estado para el menÃº de filtros en mÃ³vil
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
 
   useEffect(() => {
@@ -97,7 +96,7 @@ export default function StaticCatalog({ products: PRODUCTOS }: { products: Produ
 
   const handleAddToCart = (e: React.MouseEvent, name: string) => {
     e.preventDefault(); e.stopPropagation();
-    alert(`¡${name} agregado al carrito!`);
+    alert(`Â¡${name} agregado al carrito!`);
   };
 
   const clearFilters = () => {
@@ -106,7 +105,7 @@ export default function StaticCatalog({ products: PRODUCTOS }: { products: Produ
 
   const hasActiveFilters = activeCategory !== "todo" || activeColor !== null || activeSize !== null || maxPrice < 800000;
 
-  // Renderizador de filtros para reutilizarlo en PC y Móvil
+  // Renderizador de filtros para reutilizarlo en PC y MÃ³vil
   const renderFilters = () => (
     <>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "40px", borderBottom: "1px solid #000", paddingBottom: "16px" }}>
@@ -119,7 +118,7 @@ export default function StaticCatalog({ products: PRODUCTOS }: { products: Produ
       </div>
 
       <div style={{ marginBottom: "48px" }}>
-        <h3 style={{ fontSize: "9px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#888", marginBottom: "20px" }}>Colección</h3>
+        <h3 style={{ fontSize: "9px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#888", marginBottom: "20px" }}>ColecciÃ³n</h3>
         <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "16px" }}>
           {CATEGORIAS.map(cat => (
             <li key={cat.id}>
@@ -128,7 +127,7 @@ export default function StaticCatalog({ products: PRODUCTOS }: { products: Produ
                 style={{ fontSize: "12px", color: activeCategory === cat.id ? "#000" : "#888", fontWeight: activeCategory === cat.id ? 500 : 300, transition: "color 0.3s", display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", background: "none", border: "none", cursor: "pointer", padding: 0, textAlign: "left" }}
               >
                 <span>{cat.label}</span>
-                {activeCategory === cat.id && <span style={{ fontSize: "10px" }}>—</span>}
+                {activeCategory === cat.id && <span style={{ fontSize: "10px" }}>â€”</span>}
               </button>
             </li>
           ))}
@@ -151,7 +150,7 @@ export default function StaticCatalog({ products: PRODUCTOS }: { products: Produ
       </div>
 
       <div style={{ marginBottom: "48px" }}>
-        <h3 style={{ fontSize: "9px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#888", marginBottom: "20px" }}>Precio Máximo</h3>
+        <h3 style={{ fontSize: "9px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#888", marginBottom: "20px" }}>Precio MÃ¡ximo</h3>
         <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
           <span style={{ fontSize: "12px", color: "#666" }}>{formatPrice(maxPrice)}</span>
         </div>
@@ -198,7 +197,7 @@ export default function StaticCatalog({ products: PRODUCTOS }: { products: Produ
         }
       `}} />
 
-      {/* Cajón de Filtros Móvil */}
+      {/* CajÃ³n de Filtros MÃ³vil */}
       <div className={`mobile-drawer ${isMobileFiltersOpen ? 'open' : ''}`}>
         <button className="drawer-close-btn" onClick={() => setIsMobileFiltersOpen(false)}>
           <X size={24} color="#000" />
@@ -211,7 +210,7 @@ export default function StaticCatalog({ products: PRODUCTOS }: { products: Produ
 
       <div className="catalog-container">
         
-        {/* BOTÓN FILTROS MÓVIL */}
+        {/* BOTÃ“N FILTROS MÃ“VIL */}
         <button className="mobile-filter-btn" onClick={() => setIsMobileFiltersOpen(true)}>
           <SlidersHorizontal size={14} /> Filtros {hasActiveFilters && "(Activos)"}
         </button>
@@ -296,7 +295,7 @@ export default function StaticCatalog({ products: PRODUCTOS }: { products: Produ
 
                       <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full lg:group-hover:translate-y-0 transition-transform duration-300 z-10 hidden lg:block">
                         <button onClick={(e) => handleAddToCart(e, product.name)} style={{ width: "100%", backgroundColor: "#000", color: "#fff", border: "none", padding: "12px", fontSize: "9px", letterSpacing: "0.2em", textTransform: "uppercase", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}>
-                          <ShoppingBag size={14} /> Vista Rápida
+                          <ShoppingBag size={14} /> Vista RÃ¡pida
                         </button>
                       </div>
                     </div>
@@ -314,7 +313,7 @@ export default function StaticCatalog({ products: PRODUCTOS }: { products: Produ
           {hasMore && (
             <div style={{ display: "flex", justifyContent: "center", marginTop: "60px" }}>
               <button onClick={() => setVisibleCount(prev => prev + 9)} style={{ padding: "14px 40px", backgroundColor: "transparent", border: "1px solid #000", fontSize: "10px", letterSpacing: "0.2em", textTransform: "uppercase", cursor: "pointer" }}>
-                Cargar Más Piezas
+                Cargar MÃ¡s Piezas
               </button>
             </div>
           )}
