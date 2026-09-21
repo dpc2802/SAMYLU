@@ -20,7 +20,7 @@ export default function LookbookSection() {
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} style={{ backgroundColor: "#fff", overflow: "hidden" }}>
+    <section ref={ref} style={{ backgroundColor: "#fff", overflow: "hidden", paddingBottom: "100px" }}>
       <style dangerouslySetInnerHTML={{__html: `
         .lb-header { display: flex; flex-direction: column; border-top: 1px solid #e5e5e5; border-bottom: 1px solid #e5e5e5; }
         .lb-header-left { width: 100%; padding: 12px 0; border-bottom: 1px solid #e5e5e5; display: flex; align-items: center; justify-content: center; }
@@ -28,19 +28,20 @@ export default function LookbookSection() {
         .lb-header-right { width: 100%; border-top: 1px solid #e5e5e5; display: flex; flex-direction: row; align-items: center; justify-content: space-between; padding: 20px 6vw; }
         
         /* CARRUSEL MOVIL */
-        .lb-carousel-mobile { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 4px; padding: 0; scrollbar-width: none; }
+        .lb-carousel-mobile { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 4px; padding: 0 6vw; scrollbar-width: none; }
         .lb-carousel-mobile::-webkit-scrollbar { display: none; }
         .lb-item-mobile { flex: 0 0 85vw; height: 60vh; min-height: 400px; scroll-snap-align: center; position: relative; }
         
         @media (min-width: 768px) {
-          .lb-header { flex-direction: row; }
+          .lb-header { flex-direction: row; margin: 0 6vw; border: 1px solid #e5e5e5; border-bottom: none; }
           .lb-header-left { width: 80px; border-bottom: none; border-right: 1px solid #e5e5e5; padding: 0; }
           .lb-header-left span { writing-mode: vertical-rl; transform: rotate(180deg); }
           .lb-header-right { width: calc(100% - 80px); border-top: none; }
         }
       `}} />
 
-      <div className="lb-header">
+      {/* HEADER CON MARGENES LATERALES EN PC */}
+      <div className="lb-header mt-10 md:mt-20">
         <div className="lb-header-left">
           <span style={{ fontSize: "10px", letterSpacing: "0.3em", textTransform: "uppercase", color: "#888" }}>
             Campaña 2026
@@ -61,7 +62,7 @@ export default function LookbookSection() {
       <div className="md:hidden lb-carousel-mobile" ref={carouselRef}>
         {looks.map((look, i) => (
           <Link href={`/product/${look.slug}`} key={i} className="lb-item-mobile group block">
-            <Image src={look.src} alt={look.alt} fill sizes="85vw" style={{ objectFit: "cover" }} />
+            <Image src={look.src} alt={look.alt} fill sizes="85vw" style={{ objectFit: "cover", objectPosition: "top" }} />
             <div style={{ position: "absolute", bottom: "20px", left: "20px", backgroundColor: "white", padding: "8px 16px" }}>
               <span style={{ fontSize: "9px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#000" }}>{look.label}</span>
             </div>
@@ -69,18 +70,20 @@ export default function LookbookSection() {
         ))}
       </div>
 
-      {/* DESKTOP GRID */}
-      <div className="hidden md:grid grid-cols-3 gap-[1px] bg-[#e5e5e5]">
+      {/* DESKTOP GRID - CON MARGENES LATERALES Y MEJOR RECORTE */}
+      <div className="hidden md:grid grid-cols-3 gap-4" style={{ padding: "0 6vw" }}>
         {looks.map((look, i) => (
           <motion.div
             key={i}
             initial={{ opacity: 0 }}
             animate={inView ? { opacity: 1 } : {}}
             transition={{ duration: 0.8, delay: i * 0.1 }}
-            className="relative aspect-[3/4] bg-white group cursor-pointer overflow-hidden block"
+            className="relative bg-white group cursor-pointer overflow-hidden block"
+            style={{ aspectRatio: "2/3" }}
           >
             <Link href={`/product/${look.slug}`} style={{ display: "block", width: "100%", height: "100%" }}>
-              <Image src={look.src} alt={look.alt} fill sizes="33vw" style={{ objectFit: "cover", transition: "transform 0.8s ease" }} className="group-hover:scale-105" />
+              {/* objectPosition: "top" evita que corte las cabezas */}
+              <Image src={look.src} alt={look.alt} fill sizes="30vw" style={{ objectFit: "cover", objectPosition: "top", transition: "transform 0.8s ease" }} className="group-hover:scale-105" />
               <div style={{ position: "absolute", inset: 0, backgroundColor: "rgba(0,0,0,0.1)", opacity: 0, transition: "opacity 0.4s" }} className="group-hover:opacity-100" />
               <div style={{ position: "absolute", bottom: "30px", left: "30px", backgroundColor: "white", padding: "10px 20px", transform: "translateY(20px)", opacity: 0, transition: "all 0.4s ease" }} className="group-hover:translate-y-0 group-hover:opacity-100">
                 <span style={{ fontSize: "10px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#000" }}>{look.label}</span>

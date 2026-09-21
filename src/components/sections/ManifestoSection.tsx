@@ -21,7 +21,7 @@ export default function ManifestoSection() {
         justifyContent: "center",
         position: "relative",
         overflow: "hidden",
-        padding: "10vh 5vw",
+        padding: "10vh 6vw",
       }}
     >
       {/* MARCA DE AGUA GIGANTE (Efecto Revista Editorial High-Fashion) */}

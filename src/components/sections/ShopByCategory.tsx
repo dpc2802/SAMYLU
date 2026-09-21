@@ -37,7 +37,7 @@ export default function ShopByCategory() {
           -ms-overflow-style: none;
           scroll-snap-type: x mandatory;
           gap: 24px;
-          padding: 0 5vw;
+          padding: 0 6vw;
         }
 
         .circle-wrapper {
