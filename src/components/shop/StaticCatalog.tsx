@@ -1,11 +1,24 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Heart, ChevronDown, ShoppingBag, X, SlidersHorizontal } from "lucide-react";
-import { PRODUCTOS } from "@/lib/mock-db";
+
+export type ProductItem = {
+  id: string;
+  name: string;
+  slug: string;
+  price: number;
+  color: string;
+  size: string[];
+  type: string;
+  img: string;
+  description: string;
+  badge?: string;
+  isFeatured?: boolean;
+};
 
 const CATEGORIAS = [
   { id: "todo", label: "Toda la Colección" },
@@ -28,7 +41,9 @@ const formatPrice = (price: number) => {
   return new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 }).format(price);
 };
 
-export default function StaticCatalog() {
+export default function StaticCatalog({ products: PRODUCTOS }: { products: ProductItem[] }) {
+  // Mobile drawer state
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState("todo");
   const [activeColor, setActiveColor] = useState<string | null>(null);
   const [activeSize, setActiveSize] = useState<string | null>(null);
