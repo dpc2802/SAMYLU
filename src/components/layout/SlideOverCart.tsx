@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Plus, Minus, Trash2, ShoppingBag } from "lucide-react";
 import { useCartStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
+import { WHATSAPP_NUMBER } from "@/lib/constants";
 
 const formatPrice = (price: number) => {
   return new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 }).format(price);
@@ -33,6 +34,29 @@ export default function SlideOverCart() {
   const currentTotal = total();
   const progress = Math.min((currentTotal / FREE_SHIPPING_THRESHOLD) * 100, 100);
   const remaining = FREE_SHIPPING_THRESHOLD - currentTotal;
+
+  const handleWhatsAppCheckout = () => {
+    if (items.length === 0) return;
+    
+    let message = `Hola Samylú, quiero realizar el siguiente pedido:\n\n`;
+    
+    items.forEach((item, index) => {
+      message += `${index + 1}. *${item.name}*\n`;
+      message += `   - Talla: ${item.size}\n`;
+      if (item.color) message += `   - Color: ${item.color}\n`;
+      message += `   - Cantidad: ${item.quantity}\n`;
+      message += `   - Precio: ${formatPrice(item.price * item.quantity)}\n\n`;
+    });
+    
+    if (notes && notes.trim() !== "") {
+      message += `📝 *Notas del pedido:*\n${notes}\n\n`;
+    }
+    
+    message += `💰 *TOTAL: ${formatPrice(currentTotal)}*`;
+    
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+  };
 
   return (
     <AnimatePresence>
@@ -172,12 +196,11 @@ export default function SlideOverCart() {
                 </p>
 
                 <button 
-                  onClick={() => {
-                    alert("¡Redirigiendo a la pasarela de pagos segura (Wompi/Stripe)... Próximamente!");
-                  }}
+                  onClick={handleWhatsAppCheckout}
                   className="w-full bg-black text-white py-4 text-[10px] tracking-[0.25em] uppercase font-medium hover:bg-black/80 transition-colors flex items-center justify-center gap-2"
                 >
-                  Proceder al Pago
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                  Comprar por WhatsApp
                 </button>
               </div>
             )}

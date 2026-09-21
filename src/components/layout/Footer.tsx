@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -55,12 +55,29 @@ export default function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div style={{ padding: "0 5vw", display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", borderTop: "1px solid #1a1a1a", paddingTop: "24px", gap: "16px" }}>
-        <p style={{ fontSize: "10px", color: "#555", margin: 0 }}>&copy; 2025 SAMYLÚ by Martha Cepeda. Todos los derechos reservados.</p>
+      <div style={{ padding: "0 5vw", display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", borderTop: "1px solid #1a1a1a", paddingTop: "24px", paddingBottom: "24px", gap: "16px" }}>
+        <p style={{ fontSize: "10px", color: "#555", margin: 0 }}>&copy; 2026 SAMYLÚ by Martha Cepeda. Todos los derechos reservados.</p>
         <div style={{ display: "flex", gap: "24px" }}>
           <Link href="/privacidad" style={{ fontSize: "10px", color: "#555", textDecoration: "none" }} className="hover:text-white transition-colors">Privacidad</Link>
           <Link href="/terminos" style={{ fontSize: "10px", color: "#555", textDecoration: "none" }} className="hover:text-white transition-colors">Términos</Link>
         </div>
+      </div>
+
+      {/* DPALACIOS Signature */}
+      <div style={{ backgroundColor: "#000", borderTop: "1px solid #111", padding: "12px 5vw", textAlign: "center" }}>
+        <a 
+          href="https://wa.me/573148883214?text=Hola,%20me%20gustar%C3%ADa%20cotizar%20el%20desarrollo%20de%20una%20tienda%20online%20como%20Samylu"
+          target="_blank"
+          rel="noreferrer"
+          style={{ fontSize: "9px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#666", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px" }}
+          className="hover:text-white transition-colors group"
+        >
+          <span>Diseñado por DPALACIOS</span>
+          <span style={{ color: "#333" }}>|</span>
+          <span style={{ borderBottom: "1px solid #444", paddingBottom: "2px" }} className="group-hover:border-white transition-colors">
+            Haz clic aquí para cotizar tu web 🚀
+          </span>
+        </a>
       </div>
     </footer>
   );
