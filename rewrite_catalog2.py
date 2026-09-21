@@ -1,4 +1,7 @@
-"use client";
+# -*- coding: utf-8 -*-
+"""Rewrite StaticCatalog with load-more pagination and 2-column mobile grid."""
+
+CATALOG = '''"use client";
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
@@ -342,3 +345,8 @@ export default function StaticCatalog({ products: PRODUCTOS }: { products: Produ
     </div>
   );
 }
+'''
+
+with open("src/components/shop/StaticCatalog.tsx", "w", encoding="utf-8") as f:
+    f.write(CATALOG)
+print("Catalog rewritten with pagination + 2-col mobile!")

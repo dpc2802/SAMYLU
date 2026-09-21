@@ -423,3 +423,4 @@ with open("src/components/shop/StaticCatalog.tsx", "w", encoding="utf-8") as f:
     f.write(NEW_CATALOG)
 
 print("StaticCatalog rewritten from scratch!")
+

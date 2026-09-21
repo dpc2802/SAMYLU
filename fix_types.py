@@ -38,3 +38,4 @@ with open("src/components/shop/StaticCatalog.tsx", "w", encoding="utf-8") as f:
     f.write(content)
 
 print("Type errors fixed!")
+
