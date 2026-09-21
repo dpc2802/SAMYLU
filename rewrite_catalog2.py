@@ -350,3 +350,4 @@ export default function StaticCatalog({ products: PRODUCTOS }: { products: Produ
 with open("src/components/shop/StaticCatalog.tsx", "w", encoding="utf-8") as f:
     f.write(CATALOG)
 print("Catalog rewritten with pagination + 2-col mobile!")
+

@@ -65,3 +65,4 @@ with open("src/components/sections/FeaturedCollection.tsx", "w", encoding="utf-8
     f.write(content)
 
 print("FeaturedCollection mobile fixed!")
+
