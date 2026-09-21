@@ -33,7 +33,7 @@ export default function ContactoPage() {
                 <MapPin size={18} strokeWidth={1} style={{ marginTop: "4px" }} />
                 <div>
                   <h3 style={{ fontSize: "10px", letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 600, margin: "0 0 8px" }}>El Atelier</h3>
-                  <p style={{ fontSize: "13px", color: "#666", margin: 0, lineHeight: 1.6 }}>Bogotá, Colombia<br />Atención únicamente con cita previa.</p>
+                  <p style={{ fontSize: "13px", color: "#666", margin: 0, lineHeight: 1.6 }}>Bucaramanga, Colombia<br />Atención únicamente con cita previa.</p>
                 </div>
               </div>
 

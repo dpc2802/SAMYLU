@@ -10,3 +10,4 @@ content = content.replace("<Instagram size={18} strokeWidth={1} style={{ marginT
 
 with open("src/app/(storefront)/contacto/page.tsx", "w", encoding="utf-8") as f:
     f.write(content)
+

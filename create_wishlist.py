@@ -43,3 +43,4 @@ os.makedirs("src/app/(storefront)/wishlist", exist_ok=True)
 with open("src/app/(storefront)/wishlist/page.tsx", "w", encoding="utf-8") as f:
     f.write(WISHLIST)
 print("Wishlist page created!")
+
