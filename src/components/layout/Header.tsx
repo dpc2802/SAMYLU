@@ -122,14 +122,14 @@ export default function Header() {
             <button aria-label="Mi cuenta" className={cn("hidden md:block hover:opacity-50 transition-opacity", col)}>
               <User size={18} strokeWidth={1.5} />
             </button>
-            <button aria-label="Favoritos" className={cn("relative hover:opacity-50 transition-opacity", col)}>
+            <Link href="/wishlist" aria-label="Favoritos" className={cn("relative hover:opacity-50 transition-opacity", col)}>
               <Heart size={18} strokeWidth={1.5} />
               {mounted && wishlistCount > 0 && (
                 <span className="absolute -top-1.5 -right-1.5 text-[9px] bg-black text-white rounded-full w-4 h-4 flex items-center justify-center">
                   {wishlistCount}
                 </span>
               )}
-            </button>
+            </Link>
             <button
               onClick={openCart}
               aria-label="Carrito"
