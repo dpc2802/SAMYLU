@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
@@ -6,168 +6,303 @@ import Image from "next/image";
 import Link from "next/link";
 
 const looks = [
-  { src: "/images/look-01.jpg", alt: "Top plisado marfil", label: "Jardin", slug: "conjunto-floral-3d" },
-  { src: "/images/look-02.jpg", alt: "Corset metalizado dorado", label: "Noche Dorada", slug: "vestido-bronce-metalico" },
-  { src: "/images/look-03.jpg", alt: "Mono blanco floral", label: "Flor Blanca", slug: "vestido-peplum-rosa" },
-  { src: "/images/look-04.jpg", alt: "Top lazo falda circulos", label: "Romantica", slug: "top-lazo-blanco-falda-rosa" },
-  { src: "/images/look-05.jpg", alt: "Vestido largo verde oliva", label: "Verde Passion", slug: "top-olivo-falda-azul" },
-  { src: "/images/look-06.jpg", alt: "Vestido encaje gris", label: "Encaje Perla", slug: "vestido-sirena-purpura" },
+  { src: "/images/look-01.jpg", alt: "Top plisado marfil", label: "Jardin", slug: "conjunto-floral-3d", subtitle: "Coleccion Primavera" },
+  { src: "/images/look-02.jpg", alt: "Corset metalizado dorado", label: "Noche Dorada", slug: "vestido-bronce-metalico", subtitle: "Alta Costura" },
+  { src: "/images/look-03.jpg", alt: "Mono blanco floral", label: "Flor Blanca", slug: "vestido-peplum-rosa", subtitle: "Ready To Wear" },
+  { src: "/images/look-04.jpg", alt: "Top lazo falda circulos", label: "Romantica", slug: "top-lazo-blanco-falda-rosa", subtitle: "Edicion Limitada" },
+  { src: "/images/look-05.jpg", alt: "Vestido largo verde oliva", label: "Verde Passion", slug: "top-olivo-falda-azul", subtitle: "Exclusivo" },
+  { src: "/images/look-06.jpg", alt: "Vestido encaje gris", label: "Encaje Perla", slug: "vestido-sirena-purpura", subtitle: "Alta Costura" },
 ];
 
 export default function LookbookSection() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section ref={ref} style={{ backgroundColor: "#fff", overflow: "hidden", paddingBottom: "100px" }}>
+    <section ref={ref} style={{ backgroundColor: "#0a0a0a", overflow: "hidden" }}>
       <style dangerouslySetInnerHTML={{__html: `
-        /* --- HEADER --- */
-        .lb-header {
+        /* ===== LOOKBOOK HEADER ===== */
+        .lb-editorial-header {
           display: flex;
-          flex-direction: row;
-          align-items: stretch;
-          border-top: 1px solid #e5e5e5;
-          border-bottom: 1px solid #e5e5e5;
-          margin-bottom: 32px;
-        }
-        .lb-side-label {
-          width: 56px;
-          flex-shrink: 0;
-          border-right: 1px solid #e5e5e5;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 20px 0;
-        }
-        .lb-side-label span {
-          font-size: 10px;
-          letter-spacing: 0.3em;
-          text-transform: uppercase;
-          color: #888;
-          writing-mode: vertical-rl;
-          transform: rotate(180deg);
-        }
-        .lb-main-header {
-          flex: 1;
-          display: flex;
-          flex-direction: row;
-          align-items: center;
+          align-items: flex-end;
           justify-content: space-between;
-          padding: 28px 6vw;
+          padding: 80px 6vw 60px;
+          border-bottom: 1px solid rgba(255,255,255,0.08);
         }
 
-        /* --- DESKTOP GRID --- */
-        .lb-grid {
+        /* ===== GRID EDITORIAL - DESKTOP ===== */
+        .lb-editorial-grid {
+          display: none;
+        }
+        .lb-featured-row {
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 16px;
-          padding: 0 6vw;
+          grid-template-columns: 3fr 2fr;
+          height: 75vh;
+          min-height: 600px;
         }
-        .lb-grid-item {
+        .lb-secondary-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr 1fr;
+          height: 55vh;
+          min-height: 420px;
+          border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* ===== ITEM BASE ===== */
+        .lb-item {
           position: relative;
-          aspect-ratio: 2 / 3;
           overflow: hidden;
-          background: #f5f5f5;
-          display: block;
           cursor: pointer;
+          display: block;
         }
-        .lb-label-tag {
+        .lb-item-inner {
           position: absolute;
-          bottom: 24px;
-          left: 24px;
-          background: white;
-          padding: 8px 18px;
-          font-size: 10px;
-          letter-spacing: 0.2em;
-          text-transform: uppercase;
-          color: #000;
-          opacity: 0;
-          transform: translateY(12px);
-          transition: all 0.4s ease;
+          inset: 0;
         }
-        .lb-grid-item:hover .lb-label-tag {
+        .lb-item-inner img {
+          transition: transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .lb-item:hover .lb-item-inner img {
+          transform: scale(1.06);
+        }
+
+        /* Gradient overlay */
+        .lb-overlay {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
+          transition: opacity 0.5s ease;
+        }
+        .lb-item:hover .lb-overlay {
+          opacity: 0.9;
+        }
+
+        /* Text block */
+        .lb-text {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          padding: 40px;
+          transform: translateY(8px);
+          transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .lb-item:hover .lb-text {
+          transform: translateY(0);
+        }
+        .lb-subtitle {
+          font-size: 9px;
+          letter-spacing: 0.35em;
+          text-transform: uppercase;
+          color: rgba(255,255,255,0.5);
+          margin: 0 0 8px 0;
+          opacity: 0;
+          transition: opacity 0.4s ease 0.1s;
+        }
+        .lb-item:hover .lb-subtitle {
+          opacity: 1;
+        }
+        .lb-title {
+          font-family: var(--font-serif);
+          font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+          font-weight: 400;
+          font-style: italic;
+          color: #fff;
+          margin: 0 0 16px 0;
+          line-height: 1.1;
+        }
+        .lb-cta {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 9px;
+          letter-spacing: 0.3em;
+          text-transform: uppercase;
+          color: #fff;
+          text-decoration: none;
+          border-bottom: 1px solid rgba(255,255,255,0.4);
+          padding-bottom: 3px;
+          opacity: 0;
+          transform: translateY(6px);
+          transition: all 0.4s ease 0.15s;
+        }
+        .lb-item:hover .lb-cta {
           opacity: 1;
           transform: translateY(0);
         }
 
-        /* --- MOBILE CAROUSEL --- */
-        .lb-mobile-scroll {
-          display: none;
+        /* Featured item extra large text */
+        .lb-item-featured .lb-title {
+          font-size: clamp(2rem, 4vw, 3.5rem);
         }
-        @media (max-width: 767px) {
-          .lb-grid { display: none; }
-          .lb-mobile-scroll {
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            gap: 12px;
-            padding: 0 6vw;
-            scrollbar-width: none;
-          }
-          .lb-mobile-scroll::-webkit-scrollbar { display: none; }
-          .lb-mobile-card {
-            flex: 0 0 82vw;
-            height: 65vh;
-            min-height: 420px;
-            scroll-snap-align: center;
-            position: relative;
-            display: block;
-            overflow: hidden;
-          }
+        .lb-item-featured .lb-text {
+          padding: 60px;
+        }
+
+        /* Vertical dividers between secondary items */
+        .lb-secondary-row .lb-item + .lb-item {
+          border-left: 1px solid rgba(255,255,255,0.05);
+        }
+
+        @media (min-width: 768px) {
+          .lb-editorial-grid { display: block; }
+        }
+
+        /* ===== MOBILE CAROUSEL ===== */
+        .lb-mobile {
+          display: block;
+        }
+        .lb-mobile-track {
+          display: flex;
+          overflow-x: auto;
+          scroll-snap-type: x mandatory;
+          scrollbar-width: none;
+        }
+        .lb-mobile-track::-webkit-scrollbar { display: none; }
+        .lb-mobile-card {
+          flex: 0 0 88vw;
+          height: 70vh;
+          min-height: 480px;
+          scroll-snap-align: center;
+          position: relative;
+          overflow: hidden;
+        }
+        .lb-mobile-card + .lb-mobile-card {
+          margin-left: 8px;
+        }
+        @media (min-width: 768px) {
+          .lb-mobile { display: none; }
         }
       `}} />
 
-      {/* HEADER */}
-      <div className="lb-header">
-        <div className="lb-side-label">
-          <span>Campana 2026</span>
-        </div>
-        <div className="lb-main-header">
-          <h2 style={{ fontFamily: "var(--font-serif)", fontSize: "clamp(2rem, 3.5vw, 3.5rem)", fontWeight: 400, margin: 0, lineHeight: 1.1 }}>
-            Noches de<br />
-            <span style={{ fontStyle: "italic", color: "#666" }}>Bohemia</span>
+      {/* ────── EDITORIAL HEADER ────── */}
+      <div className="lb-editorial-header">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.9 }}
+        >
+          <p style={{ fontSize: "10px", letterSpacing: "0.4em", textTransform: "uppercase", color: "rgba(255,255,255,0.4)", marginBottom: "20px" }}>
+            Campaña — 2026
+          </p>
+          <h2 style={{ fontFamily: "var(--font-serif)", fontSize: "clamp(3rem, 7vw, 7rem)", fontWeight: 400, color: "#fff", lineHeight: 0.9, margin: 0, letterSpacing: "-0.02em" }}>
+            Noches<br />
+            <span style={{ fontStyle: "italic", color: "rgba(255,255,255,0.45)" }}>de Bohemia</span>
           </h2>
-          <Link href="/shop" style={{ fontSize: "10px", letterSpacing: "0.2em", textTransform: "uppercase", textDecoration: "none", color: "#000", borderBottom: "1px solid #000", paddingBottom: "4px" }}>
-            Ver Lookbook
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.9, delay: 0.4 }}
+          style={{ textAlign: "right", paddingBottom: "8px" }}
+        >
+          <p style={{ fontSize: "10px", letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginBottom: "20px", maxWidth: "200px", lineHeight: 1.8 }}>
+            Seis looks, una sola vision de elegancia sin compromiso.
+          </p>
+          <Link href="/shop" style={{ fontSize: "10px", letterSpacing: "0.3em", textTransform: "uppercase", color: "#fff", textDecoration: "none", borderBottom: "1px solid rgba(255,255,255,0.3)", paddingBottom: "4px" }}>
+            Ver Coleccion →
           </Link>
-        </div>
+        </motion.div>
       </div>
 
-      {/* MOBILE CAROUSEL */}
-      <div className="lb-mobile-scroll">
-        {looks.map((look, i) => (
-          <Link href={`/product/${look.slug}`} key={i} className="lb-mobile-card group">
-            <Image src={look.src} alt={look.alt} fill sizes="82vw" style={{ objectFit: "cover", objectPosition: "top center" }} />
-            <div style={{ position: "absolute", bottom: "20px", left: "20px", backgroundColor: "white", padding: "8px 16px" }}>
-              <span style={{ fontSize: "9px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#000" }}>{look.label}</span>
-            </div>
-          </Link>
-        ))}
-      </div>
+      {/* ────── DESKTOP: EDITORIAL ASYMMETRIC GRID ────── */}
+      <div className="lb-editorial-grid">
 
-      {/* DESKTOP GRID */}
-      <div className="lb-grid">
-        {looks.map((look, i) => (
+        {/* ROW 1: Featured (large) + stack of 2 */}
+        <div className="lb-featured-row">
+
+          {/* Left: GRANDE */}
           <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, delay: i * 0.08 }}
+            initial={{ opacity: 0, scale: 1.02 }}
+            animate={inView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 1.1, delay: 0.1 }}
+            style={{ height: "100%" }}
           >
-            <Link href={`/product/${look.slug}`} className="lb-grid-item group">
-              <Image
-                src={look.src}
-                alt={look.alt}
-                fill
-                sizes="33vw"
-                style={{ objectFit: "cover", objectPosition: "top center", transition: "transform 0.8s ease" }}
-                className="group-hover:scale-105"
-              />
-              <div className="lb-label-tag">{look.label}</div>
+            <Link href={`/product/${looks[0].slug}`} className="lb-item lb-item-featured" style={{ height: "100%", display: "block" }}>
+              <div className="lb-item-inner">
+                <Image src={looks[0].src} alt={looks[0].alt} fill sizes="58vw" style={{ objectFit: "cover", objectPosition: "top center" }} />
+              </div>
+              <div className="lb-overlay" />
+              <div className="lb-text">
+                <p className="lb-subtitle">{looks[0].subtitle}</p>
+                <h3 className="lb-title">{looks[0].label}</h3>
+                <span className="lb-cta">Comprar Look →</span>
+              </div>
             </Link>
           </motion.div>
-        ))}
+
+          {/* Right: stacked 2 */}
+          <div style={{ display: "flex", flexDirection: "column", borderLeft: "1px solid rgba(255,255,255,0.05)" }}>
+            {[looks[1], looks[2]].map((look, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: 20 }}
+                animate={inView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.9, delay: 0.2 + i * 0.15 }}
+                style={{ flex: 1, borderBottom: i === 0 ? "1px solid rgba(255,255,255,0.05)" : "none" }}
+              >
+                <Link href={`/product/${look.slug}`} className="lb-item" style={{ height: "100%", display: "block" }}>
+                  <div className="lb-item-inner">
+                    <Image src={look.src} alt={look.alt} fill sizes="33vw" style={{ objectFit: "cover", objectPosition: "top center" }} />
+                  </div>
+                  <div className="lb-overlay" />
+                  <div className="lb-text">
+                    <p className="lb-subtitle">{look.subtitle}</p>
+                    <h3 className="lb-title" style={{ fontSize: "1.4rem" }}>{look.label}</h3>
+                    <span className="lb-cta">Comprar Look →</span>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* ROW 2: 3 equal */}
+        <div className="lb-secondary-row">
+          {[looks[3], looks[4], looks[5]].map((look, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.9, delay: 0.4 + i * 0.12 }}
+              style={{ height: "100%" }}
+            >
+              <Link href={`/product/${look.slug}`} className="lb-item" style={{ height: "100%", display: "block" }}>
+                <div className="lb-item-inner">
+                  <Image src={look.src} alt={look.alt} fill sizes="33vw" style={{ objectFit: "cover", objectPosition: "top center" }} />
+                </div>
+                <div className="lb-overlay" />
+                <div className="lb-text" style={{ padding: "30px" }}>
+                  <p className="lb-subtitle">{look.subtitle}</p>
+                  <h3 className="lb-title" style={{ fontSize: "1.3rem" }}>{look.label}</h3>
+                  <span className="lb-cta">Comprar Look →</span>
+                </div>
+              </Link>
+            </motion.div>
+          ))}
+        </div>
       </div>
+
+      {/* ────── MOBILE CAROUSEL ────── */}
+      <div className="lb-mobile" style={{ paddingBottom: "60px" }}>
+        <div className="lb-mobile-track" style={{ padding: "2px 6vw" }}>
+          {looks.map((look, i) => (
+            <Link href={`/product/${look.slug}`} key={i} className="lb-mobile-card lb-item">
+              <div className="lb-item-inner">
+                <Image src={look.src} alt={look.alt} fill sizes="88vw" style={{ objectFit: "cover", objectPosition: "top center" }} />
+              </div>
+              <div className="lb-overlay" style={{ opacity: 1 }} />
+              <div className="lb-text" style={{ opacity: 1, transform: "none" }}>
+                <p className="lb-subtitle" style={{ opacity: 1 }}>{look.subtitle}</p>
+                <h3 className="lb-title">{look.label}</h3>
+                <span className="lb-cta" style={{ opacity: 1, transform: "none" }}>Comprar Look →</span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+
     </section>
   );
 }
