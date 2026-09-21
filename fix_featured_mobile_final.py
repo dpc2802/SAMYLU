@@ -1,4 +1,7 @@
-"use client";
+# -*- coding: utf-8 -*-
+import os
+
+CONTENT = '''"use client";
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
@@ -146,3 +149,9 @@ export default function FeaturedCollection() {
     </section>
   );
 }
+'''
+
+with open("src/components/sections/FeaturedCollection.tsx", "w", encoding="utf-8") as f:
+    f.write(CONTENT)
+
+print("FeaturedCollection completely rewritten to fix mobile rendering!")
