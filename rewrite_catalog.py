@@ -1,4 +1,7 @@
-"use client";
+# -*- coding: utf-8 -*-
+"""Writes a brand new StaticCatalog.tsx with correct UTF-8 and improved design."""
+
+NEW_CATALOG = '''"use client";
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
@@ -52,7 +55,7 @@ export default function StaticCatalog({ products: PRODUCTOS }: { products: Produ
   const [showSortMenu, setShowSortMenu] = useState(false);
 
   const { addItem, openCart } = useCartStore();
-  const { ids: wishIds, toggle: toggleWish } = useWishlistStore();
+  const { ids: wishIds, toggleItem: toggleWish } = useWishlistStore();
 
   useEffect(() => {
     const cat = searchParams.get("categoria");
@@ -89,13 +92,13 @@ export default function StaticCatalog({ products: PRODUCTOS }: { products: Produ
 
   const handleAddToCart = (p: ProductItem) => {
     addItem({
-      productId: p.id,
+      id: `${p.id}-${p.size[0] || "U"}`,
       name: p.name,
       slug: p.slug,
       price: p.price,
       image: p.img,
       size: p.size[0] || "U",
-      color: p.color || "#000000",
+      color: p.color,
       quantity: 1,
     });
     openCart();
@@ -414,3 +417,9 @@ export default function StaticCatalog({ products: PRODUCTOS }: { products: Produ
     </div>
   );
 }
+'''
+
+with open("src/components/shop/StaticCatalog.tsx", "w", encoding="utf-8") as f:
+    f.write(NEW_CATALOG)
+
+print("StaticCatalog rewritten from scratch!")
