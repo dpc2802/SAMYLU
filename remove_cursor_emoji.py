@@ -25,3 +25,4 @@ with open(footer_path, "w", encoding="utf-8") as f:
     f.write(footer)
 
 print("Cursor and emoji removed successfully!")
+
