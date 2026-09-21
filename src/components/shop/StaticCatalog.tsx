@@ -47,6 +47,17 @@ export default function StaticCatalog({ products: PRODUCTOS }: { products: Produ
   const [activeCategory, setActiveCategory] = useState("todo");
   const [activeColor, setActiveColor] = useState<string | null>(null);
   const [activeSize, setActiveSize] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Read category from URL if present (e.g., ?categoria=vestidos)
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const cat = params.get("categoria");
+      if (cat) {
+        setActiveCategory(cat);
+      }
+    }
+  }, []);
   const [maxPrice, setMaxPrice] = useState(800000);
   const [liked, setLiked] = useState<Record<string, boolean>>({});
   const [sortBy, setSortBy] = useState("destacados");
