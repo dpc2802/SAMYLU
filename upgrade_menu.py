@@ -111,3 +111,4 @@ with open("src/components/layout/Header.tsx", "w", encoding="utf-8") as f:
     f.write(content)
 
 print("Menu updated successfully")
+
