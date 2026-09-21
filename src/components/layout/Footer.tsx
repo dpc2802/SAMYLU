@@ -73,7 +73,7 @@ export default function Footer() {
         >
           <span>Diseñado por</span>
           <strong style={{ color: "#fff", fontWeight: 700, letterSpacing: "0.28em", fontSize: "10px" }}>DPALACIOS</strong>
-          <span style={{ fontSize: "12px", opacity: 0.5 }}>👆</span>
+          
         </a>
       </div>
     </footer>

@@ -31,3 +31,4 @@ export default async function ShopPage() {
 
 with open("src/app/(storefront)/shop/page.tsx", "w", encoding="utf-8") as f:
     f.write(CONTENT)
+

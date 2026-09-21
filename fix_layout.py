@@ -6,3 +6,4 @@ content = content.replace('"use server";\n', '')
 
 with open("src/app/(storefront)/layout.tsx", "w", encoding="utf-8") as f:
     f.write(content)
+
