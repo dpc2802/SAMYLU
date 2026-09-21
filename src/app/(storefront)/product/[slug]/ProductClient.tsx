@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight, ChevronLeft, ShoppingBag, Heart, Ruler, Plus, Minus, Truck } from "lucide-react";
+import { useCartStore } from "@/lib/store";
 
 const formatPrice = (price: number) => {
   return new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 }).format(price);
@@ -12,6 +13,7 @@ const formatPrice = (price: number) => {
 export default function ProductClient({ initialProduct: product }: { initialProduct: any }) {
   const [activeSize, setActiveSize] = useState<string | null>(null);
   const [openAccordion, setOpenAccordion] = useState<string>("detalles");
+  const addItem = useCartStore((state) => state.addItem);
   
   // Slider State
   const [currentIdx, setCurrentIdx] = useState(0);
@@ -28,7 +30,16 @@ export default function ProductClient({ initialProduct: product }: { initialProd
       alert("Por favor, selecciona una talla antes de añadir al carrito.");
       document.getElementById('tallas-section')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     } else {
-      alert(`¡Agregaste ${product.name} (Talla ${activeSize}) a la bolsa!`);
+      addItem({
+        productId: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.images && product.images.length > 0 ? product.images[0] : "/images/placeholder.jpg",
+        size: activeSize,
+        color: product.color,
+        quantity: 1,
+        slug: product.slug
+      });
     }
   };
 

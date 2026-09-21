@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -14,13 +14,16 @@ export default function Header() {
   const [hidden, setHidden] = useState(false);
   const [lastScroll, setLastScroll] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   
   const pathname = usePathname();
   const openCart = useCartStore((s) => s.openCart);
   const itemCount = useCartStore((s) => s.itemCount());
-  const wishlistCount = useWishlistStore((s) => s.ids.size);
+  // El wishlist ahora es un array de strings porque cambiamos de Set a Array en store.ts
+  const wishlistCount = useWishlistStore((s) => s.ids.length);
 
   useEffect(() => {
+    setMounted(true);
     const handleScroll = () => {
       const currentScroll = window.scrollY;
       setScrolled(currentScroll > 60);
@@ -89,7 +92,7 @@ export default function Header() {
             </button>
             <button aria-label="Favoritos" className={cn("relative hover:opacity-50 transition-opacity", col)}>
               <Heart size={18} strokeWidth={1.5} />
-              {wishlistCount > 0 && (
+              {mounted && wishlistCount > 0 && (
                 <span className="absolute -top-1.5 -right-1.5 text-[9px] bg-black text-white rounded-full w-4 h-4 flex items-center justify-center">
                   {wishlistCount}
                 </span>
@@ -101,7 +104,7 @@ export default function Header() {
               className={cn("relative hover:opacity-50 transition-opacity", col)}
             >
               <ShoppingBag size={18} strokeWidth={1.5} />
-              {itemCount > 0 && (
+              {mounted && itemCount > 0 && (
                 <span className="absolute -top-1.5 -right-1.5 text-[9px] bg-black text-white rounded-full w-4 h-4 flex items-center justify-center">
                   {itemCount}
                 </span>
