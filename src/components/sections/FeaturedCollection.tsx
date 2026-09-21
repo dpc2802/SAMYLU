@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
@@ -15,20 +15,25 @@ const items = [
 
 export default function FeaturedCollection() {
   const ref = useRef(null);
-  const featMobileCarouselRef = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
-  const renderCard = (item: any, delay: number) => (
-    <Link href={`/product/${item.slug}`} style={{ display: "block", width: "100%", marginBottom: "24px" }} className="group">
+  const renderCard = (item: typeof items[0], delay: number) => (
+    <Link key={item.slug} href={`/product/${item.slug}`} style={{ display: "block", width: "100%", marginBottom: "24px" }} className="group">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.8, delay }}
-        className="relative cursor-pointer"
-        style={{ width: "100%", height: "100%" }}
+        style={{ position: "relative", cursor: "pointer", width: "100%" }}
       >
         <div style={{ position: "relative", width: "100%", overflow: "hidden", backgroundColor: "#111" }}>
-          <Image src={item.src} alt={item.title} width={800} height={1200} style={{ width: "100%", height: "auto", display: "block", transition: "transform 0.8s ease-out" }} className="group-hover:scale-[1.02]" />
+          <Image
+            src={item.src}
+            alt={item.title}
+            width={800}
+            height={1200}
+            style={{ width: "100%", height: "auto", display: "block", transition: "transform 0.8s ease-out" }}
+            className="group-hover:scale-[1.02]"
+          />
           <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 40%)", opacity: 0, transition: "opacity 0.4s", display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: "30px" }} className="group-hover:opacity-100">
             <p style={{ fontSize: "9px", letterSpacing: "0.3em", textTransform: "uppercase", color: "#ccc", margin: "0 0 8px 0" }}>{item.subtitle}</p>
             <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "1.8rem", fontWeight: 400, color: "#fff", margin: 0 }}>{item.title}</h3>
@@ -40,7 +45,40 @@ export default function FeaturedCollection() {
 
   return (
     <section ref={ref} style={{ backgroundColor: "#050505", color: "#fff", paddingTop: "100px", paddingBottom: "100px", overflow: "hidden" }}>
-      
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        /* Mobile carousel — visible solo en móvil */
+        .feat-mobile { display: block; }
+        .feat-desktop { display: none; }
+
+        .feat-carousel {
+          display: flex;
+          overflow-x: auto;
+          scroll-snap-type: x mandatory;
+          gap: 12px;
+          padding: 20px 6vw;
+          scrollbar-width: none;
+        }
+        .feat-carousel::-webkit-scrollbar { display: none; }
+
+        .feat-mobile-card {
+          flex: 0 0 85vw;
+          height: 65vh;
+          min-height: 450px;
+          scroll-snap-align: center;
+          position: relative;
+          overflow: hidden;
+          display: block;
+          border-radius: 4px;
+        }
+
+        /* PC — visible solo en escritorio */
+        @media (min-width: 768px) {
+          .feat-mobile { display: none; }
+          .feat-desktop { display: flex; }
+        }
+      `}} />
+
       {/* HEADER */}
       <div style={{ paddingLeft: "6vw", paddingRight: "6vw", marginBottom: "60px", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
         <motion.div initial={{ opacity: 0, x: -30 }} animate={inView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.8 }}>
@@ -53,55 +91,56 @@ export default function FeaturedCollection() {
           </h2>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} transition={{ delay: 0.4, duration: 0.8 }} className="hidden md:block">
-          <Link href="/shop" style={{ display: "inline-flex", alignItems: "center", gap: "12px", fontSize: "10px", letterSpacing: "0.3em", textTransform: "uppercase", color: "#fff", textDecoration: "none", borderBottom: "1px solid rgba(255,255,255,0.3)", paddingBottom: "8px", transition: "all 0.4s ease" }} className="hover:border-[#D4AF37] hover:text-[#D4AF37]">
+        <motion.div initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} transition={{ delay: 0.4, duration: 0.8 }} style={{ display: "none" }} className="hidden md:block">
+          <Link href="/shop" style={{ display: "inline-flex", alignItems: "center", gap: "12px", fontSize: "10px", letterSpacing: "0.3em", textTransform: "uppercase", color: "#fff", textDecoration: "none", borderBottom: "1px solid rgba(255,255,255,0.3)", paddingBottom: "8px" }}>
             Explorar todas las piezas <span style={{ fontSize: "14px" }}>→</span>
           </Link>
         </motion.div>
       </div>
 
-      {/* ===== MÓVIL: Carrusel Horizontal ===== */}
-      <div className="md:hidden">
-        <style dangerouslySetInnerHTML={{__html: `
-          .feat-mobile-carousel { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; padding: 20px 6vw; scrollbar-width: none; }
-          .feat-mobile-carousel::-webkit-scrollbar { display: none; }
-          .feat-mobile-card { flex: 0 0 85vw; height: 65vh; min-height: 450px; scroll-snap-align: center; position: relative; border-radius: 8px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.5); display: block; }
-        `}} />
+      {/* MÓVIL: Carrusel */}
+      <div className="feat-mobile">
         <motion.div initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.2, duration: 0.8 }}>
-          <div className="feat-mobile-carousel" ref={featMobileCarouselRef}>
+          <div className="feat-carousel">
             {items.map((item, i) => (
-              <motion.div 
-                key={i} 
-                initial={{ scale: 0.9, opacity: 0.3 }}
-                whileInView={{ scale: 1, opacity: 1 }}
-                viewport={{ root: featMobileCarouselRef, margin: "0px", amount: 0.5 }}
-                transition={{ duration: 0.4, ease: "easeOut" }}
-              >
-                <Link href={`/product/${item.slug}`} className="feat-mobile-card group">
-                  <Image src={item.src} alt={item.title} fill sizes="85vw" style={{ objectFit: "cover", objectPosition: "center top" }} />
-                  <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%)" }} />
-                  <div style={{ position: "absolute", bottom: "30px", left: "30px", right: "30px" }}>
-                    <p style={{ fontSize: "9px", letterSpacing: "0.3em", textTransform: "uppercase", color: "#aaa", margin: "0 0 8px 0" }}>{item.subtitle}</p>
-                    <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "1.8rem", fontWeight: 400, color: "#fff", margin: 0 }}>{item.title}</h3>
-                  </div>
-                </Link>
-              </motion.div>
+              <Link href={`/product/${item.slug}`} key={i} className="feat-mobile-card">
+                <Image
+                  src={item.src}
+                  alt={item.title}
+                  fill
+                  sizes="85vw"
+                  style={{ objectFit: "cover", objectPosition: "center top" }}
+                />
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%)" }} />
+                <div style={{ position: "absolute", bottom: "30px", left: "24px", right: "24px" }}>
+                  <p style={{ fontSize: "9px", letterSpacing: "0.3em", textTransform: "uppercase", color: "#aaa", margin: "0 0 8px 0" }}>{item.subtitle}</p>
+                  <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "1.6rem", fontWeight: 400, color: "#fff", margin: 0 }}>{item.title}</h3>
+                </div>
+              </Link>
             ))}
           </div>
         </motion.div>
+
+        <div style={{ paddingLeft: "6vw", paddingRight: "6vw", marginTop: "20px" }}>
+          <Link href="/shop" style={{ display: "block", textAlign: "center", fontSize: "10px", letterSpacing: "0.3em", textTransform: "uppercase", color: "#fff", textDecoration: "none", border: "1px solid rgba(255,255,255,0.2)", padding: "16px" }}>
+            Explorar todas
+          </Link>
+        </div>
       </div>
 
-      {/* ===== PC: GALERÍA ===== */}
-      <div className="hidden md:flex gap-6 items-start" style={{ paddingLeft: "6vw", paddingRight: "6vw" }}>
-        <div className="flex-1 flex flex-col pt-12">{renderCard(items[0], 0.2)}{renderCard(items[3], 0.5)}</div>
-        <div className="flex-1 flex flex-col">{renderCard(items[1], 0.3)}{renderCard(items[4], 0.6)}</div>
-        <div className="flex-1 flex flex-col pt-24">{renderCard(items[2], 0.4)}</div>
-      </div>
-
-      <div className="md:hidden mt-10" style={{ paddingLeft: "6vw", paddingRight: "6vw" }}>
-        <Link href="/shop" style={{ display: "block", textAlign: "center", fontSize: "10px", letterSpacing: "0.3em", textTransform: "uppercase", color: "#fff", textDecoration: "none", border: "1px solid rgba(255,255,255,0.2)", padding: "16px", borderRadius: "30px" }}>
-          Explorar todas
-        </Link>
+      {/* DESKTOP: Galería masonry */}
+      <div className="feat-desktop" style={{ gap: "6px", alignItems: "start", paddingLeft: "6vw", paddingRight: "6vw" }}>
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", paddingTop: "48px" }}>
+          {renderCard(items[0], 0.2)}
+          {renderCard(items[3], 0.5)}
+        </div>
+        <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+          {renderCard(items[1], 0.3)}
+          {renderCard(items[4], 0.6)}
+        </div>
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", paddingTop: "96px" }}>
+          {renderCard(items[2], 0.4)}
+        </div>
       </div>
 
     </section>
