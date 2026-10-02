@@ -88,7 +88,7 @@ export default function Header() {
         </div>
 
         {/* MAIN NAV */}
-        <div className="h-[72px] px-6 md:px-12 flex items-center justify-between mx-auto max-w-[1600px]">
+        <div style={{ height: "72px", paddingLeft: "6vw", paddingRight: "6vw", display: "flex", alignItems: "center", justifyContent: "space-between", maxWidth: "1600px", margin: "0 auto" }}>
           
           {/* Logo */}
           <Link href="/" className={cn("flex-shrink-0 transition-opacity hover:opacity-70", col)} style={{ textDecoration: "none" }}>
