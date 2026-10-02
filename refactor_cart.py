@@ -1,9 +1,12 @@
-"use client";
+# -*- coding: utf-8 -*-
+import os
+
+CONTENT = '''"use client";
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, AnimatePresence, Variants } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { X, Plus, Minus, Trash2, ShoppingBag, MessageCircle, Gift } from "lucide-react";
 import { useCartStore } from "@/lib/store";
 import { WHATSAPP_NUMBER } from "@/lib/constants";
@@ -31,34 +34,22 @@ export default function SlideOverCart() {
   const progress = Math.min((currentTotal / FREE_SHIPPING_THRESHOLD) * 100, 100);
 
   const handleWhatsApp = () => {
-    let msg = `Hola, me gustaría concretar mi pedido de SAMYLÚ:
-
-`;
+    let msg = `Hola, me gustaría concretar mi pedido de SAMYLÚ:\n\n`;
     items.forEach((item, i) => {
-      msg += `${i + 1}. *${item.name}*
-`;
-      msg += `   • Talla: ${item.size} ${item.color !== "#000000" ? `| Color: ${item.color}` : ""}
-`;
-      msg += `   • Cantidad: ${item.quantity}
-`;
-      msg += `   • Subtotal: ${formatPrice(item.price * item.quantity)}
-
-`;
+      msg += `${i + 1}. *${item.name}*\n`;
+      msg += `   • Talla: ${item.size} ${item.color !== "#000000" ? `| Color: ${item.color}` : ""}\n`;
+      msg += `   • Cantidad: ${item.quantity}\n`;
+      msg += `   • Subtotal: ${formatPrice(item.price * item.quantity)}\n\n`;
     });
-    msg += `*TOTAL ESTIMADO: ${formatPrice(currentTotal)}*
-`;
-    if (progress >= 100) msg += `🎁 Aplica Envío Gratis
-`;
-    if (notes) msg += `
-*NOTAS:* ${notes}
-`;
-    msg += `
-Quedo atenta para el pago y los datos de envío.`;
+    msg += `*TOTAL ESTIMADO: ${formatPrice(currentTotal)}*\n`;
+    if (progress >= 100) msg += `🎁 Aplica Envío Gratis\n`;
+    if (notes) msg += `\n*NOTAS:* ${notes}\n`;
+    msg += `\nQuedo atenta para el pago y los datos de envío.`;
 
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
   };
 
-  const containerVariants: Variants = {
+  const containerVariants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
@@ -66,7 +57,7 @@ Quedo atenta para el pago y los datos de envío.`;
     }
   };
 
-  const itemVariants: Variants = {
+  const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
   };
@@ -220,3 +211,9 @@ Quedo atenta para el pago y los datos de envío.`;
     </AnimatePresence>
   );
 }
+'''
+
+with open("src/components/layout/SlideOverCart.tsx", "w", encoding="utf-8") as f:
+    f.write(CONTENT)
+
+print("SlideOverCart refactored with premium animations and dark mode blur overlay!")
