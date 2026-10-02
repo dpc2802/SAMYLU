@@ -1,4 +1,7 @@
-"use client";
+# -*- coding: utf-8 -*-
+import os
+
+CONTENT = '''"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -7,7 +10,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Search, User, Heart, ShoppingBag, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useCartStore, useWishlistStore } from "@/lib/store";
-import { NAV_LINKS, WHATSAPP_NUMBER } from "@/lib/constants";
+import { NAV_LINKS } from "@/lib/constants";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -287,3 +290,9 @@ export default function Header() {
     </>
   );
 }
+'''
+
+with open("src/components/layout/Header.tsx", "w", encoding="utf-8") as f:
+    f.write(CONTENT)
+
+print("Header refactored with Apple-style premium typography and blur!")
