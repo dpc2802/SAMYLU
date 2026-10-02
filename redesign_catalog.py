@@ -1,4 +1,23 @@
-"use client";
+# -*- coding: utf-8 -*-
+import os
+
+NEXT_CONFIG = '''/** @type {import('next').NextConfig} */
+const nextConfig = {
+  images: {
+    formats: ['image/avif', 'image/webp'],
+    remotePatterns: [
+      { protocol: 'https', hostname: '**.amazonaws.com' },
+      { protocol: 'https', hostname: '**.cloudinary.com' },
+      { protocol: 'https', hostname: '**.supabase.co' },
+      { protocol: 'https', hostname: 'images.unsplash.com' },
+    ],
+  },
+};
+
+export default nextConfig;
+'''
+
+CATALOG = '''"use client";
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
@@ -401,3 +420,12 @@ export default function StaticCatalog({ products: PRODUCTOS }: { products: Produ
     </div>
   );
 }
+'''
+
+with open("next.config.ts", "w", encoding="utf-8") as f:
+    f.write(NEXT_CONFIG)
+
+with open("src/components/shop/StaticCatalog.tsx", "w", encoding="utf-8") as f:
+    f.write(CATALOG)
+
+print("Redesign complete! Images optimized and GSAP physics added.")

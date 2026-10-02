@@ -8,3 +8,4 @@ with open("src/app/(storefront)/contacto/page.tsx", "w", encoding="utf-8") as f:
     f.write(content)
 
 print("Location updated to Bucaramanga!")
+
