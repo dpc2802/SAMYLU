@@ -4,10 +4,11 @@ import MinimalCookieBanner from "@/components/layout/MinimalCookieBanner";
 import Footer from "@/components/layout/Footer";
 import SplashLoader from "@/components/ui/SplashLoader";
 import PageTransition from "@/components/ui/PageTransition";
+import SmoothScroll from "@/components/layout/SmoothScroll";
 
 export default function StorefrontLayout({ children }: { children: ReactNode }) {
   return (
-    <>
+    <SmoothScroll>
       <SplashLoader />
       <Header />
       <main className="min-h-screen">
@@ -17,6 +18,6 @@ export default function StorefrontLayout({ children }: { children: ReactNode }) 
       </main>
       <Footer />
       <MinimalCookieBanner />
-    </>
+    </SmoothScroll>
   );
 }
