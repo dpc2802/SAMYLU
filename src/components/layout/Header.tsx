@@ -117,17 +117,17 @@ export default function Header() {
           </nav>
 
           {/* Actions */}
-          <div className="flex items-center gap-6 flex-shrink-0">
-            <button aria-label="Buscar" className={cn("nav-link-hover", col)} onClick={() => setSearchOpen(true)}>
+          <div className="flex items-center flex-shrink-0" style={{ marginRight: "-14px" }}>
+            <button aria-label="Buscar" className={cn("nav-link-hover", col)} onClick={() => setSearchOpen(true)} style={{ padding: "14px" }}>
               <Search size={16} strokeWidth={1.2} />
             </button>
-            <button aria-label="Mi cuenta" className={cn("hidden md:block nav-link-hover", col)}>
+            <button aria-label="Mi cuenta" className={cn("hidden md:block nav-link-hover", col)} style={{ padding: "14px" }}>
               <User size={16} strokeWidth={1.2} />
             </button>
-            <Link href="/wishlist" aria-label="Favoritos" className={cn("relative nav-link-hover", col)}>
+            <Link href="/wishlist" aria-label="Favoritos" className={cn("relative nav-link-hover", col)} style={{ padding: "14px" }}>
               <Heart size={16} strokeWidth={1.2} />
               {mounted && wishlistCount > 0 && (
-                <span style={{ position: "absolute", top: "-4px", right: "-6px", fontSize: "7px", background: transparent ? "#fff" : "#000", color: transparent ? "#000" : "#fff", borderRadius: "50%", width: "14px", height: "14px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 600 }}>
+                <span style={{ position: "absolute", top: "6px", right: "4px", fontSize: "7px", background: transparent ? "#fff" : "#000", color: transparent ? "#000" : "#fff", borderRadius: "50%", width: "14px", height: "14px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 600 }}>
                   {wishlistCount}
                 </span>
               )}
@@ -135,11 +135,11 @@ export default function Header() {
             <button
               onClick={openCart}
               aria-label="Carrito"
-              className={cn("relative nav-link-hover", col)}
+              className={cn("relative nav-link-hover", col)} style={{ padding: "14px" }}
             >
               <ShoppingBag size={16} strokeWidth={1.2} />
               {mounted && itemCount > 0 && (
-                <span style={{ position: "absolute", top: "-4px", right: "-6px", fontSize: "7px", background: transparent ? "#fff" : "#000", color: transparent ? "#000" : "#fff", borderRadius: "50%", width: "14px", height: "14px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 600 }}>
+                <span style={{ position: "absolute", top: "6px", right: "4px", fontSize: "7px", background: transparent ? "#fff" : "#000", color: transparent ? "#000" : "#fff", borderRadius: "50%", width: "14px", height: "14px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 600 }}>
                   {itemCount}
                 </span>
               )}
@@ -147,7 +147,7 @@ export default function Header() {
             <button
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label="Menu"
-              className={cn("lg:hidden hover:opacity-50 transition-opacity", col)}
+              className={cn("lg:hidden hover:opacity-50 transition-opacity", col)} style={{ padding: "12px" }}
             >
               {menuOpen ? <X size={20} strokeWidth={1} style={{ color: "#fff" }} /> : <Menu size={20} strokeWidth={1} />}
             </button>

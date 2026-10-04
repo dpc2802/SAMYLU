@@ -328,7 +328,7 @@ export default function StaticCatalog({ products: PRODUCTOS }: { products: Produ
                             // Micro-interaction click
                             gsap.fromTo(e.currentTarget, { scale: 0.8 }, { scale: 1, duration: 0.8, ease: "elastic.out(1, 0.3)" });
                           }}
-                          style={{ position: "absolute", top: "16px", right: "16px", background: "none", border: "none", cursor: "pointer", zIndex: 10, padding: "8px" }}>
+                          style={{ position: "absolute", top: "10px", right: "10px", background: "none", border: "none", cursor: "pointer", zIndex: 10, padding: "14px" }}>
                           <Heart size={16} fill={isWished ? "#000" : "none"} strokeWidth={1} color={isWished ? "#000" : "#555"} />
                         </button>
 

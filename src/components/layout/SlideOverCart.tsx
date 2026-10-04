@@ -99,7 +99,7 @@ Quedo atenta para el pago y los datos de envío.`;
                 <h2 style={{ fontFamily: "var(--font-serif)", fontSize: "1.5rem", fontWeight: 400, fontStyle: "italic", margin: 0, color: "#000" }}>Mi Cesta</h2>
                 <span style={{ fontSize: "10px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#888" }}>{itemCount} piezas</span>
               </div>
-              <motion.button whileHover={{ rotate: 90 }} whileTap={{ scale: 0.9 }} onClick={closeCart} style={{ background: "none", border: "none", cursor: "pointer", color: "#000", padding: "4px" }}>
+              <motion.button whileHover={{ rotate: 90 }} whileTap={{ scale: 0.9 }} onClick={closeCart} style={{ background: "none", border: "none", cursor: "pointer", color: "#000", padding: "12px", marginRight: "-12px" }}>
                 <X size={20} strokeWidth={1} />
               </motion.button>
             </div>
@@ -142,7 +142,7 @@ Quedo atenta para el pago y los datos de envío.`;
                             <Link href={`/product/${item.slug}`} onClick={closeCart} style={{ fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase", textDecoration: "none", color: "#111", fontWeight: 500, lineHeight: 1.4 }}>
                               {item.name}
                             </Link>
-                            <motion.button whileHover={{ scale: 1.2, color: "#ff4444" }} whileTap={{ scale: 0.9 }} onClick={() => removeItem(item.id)} style={{ color: "#aaa", background: "none", border: "none", cursor: "pointer" }}>
+                            <motion.button whileHover={{ scale: 1.2, color: "#ff4444" }} whileTap={{ scale: 0.9 }} onClick={() => removeItem(item.id)} style={{ color: "#aaa", background: "none", border: "none", cursor: "pointer", padding: "12px", margin: "-12px -12px 0 0" }}>
                               <Trash2 size={12} strokeWidth={1.5} />
                             </motion.button>
                           </div>
@@ -156,11 +156,11 @@ Quedo atenta para el pago y los datos de envío.`;
                           </div>
                           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "auto" }}>
                             <div style={{ display: "flex", alignItems: "center", border: "1px solid #eee" }}>
-                              <motion.button whileTap={{ scale: 0.8 }} onClick={() => updateQuantity(item.id, item.quantity - 1)} style={{ width: "24px", height: "24px", display: "flex", alignItems: "center", justifyContent: "center", background: "none", border: "none", cursor: "pointer", color: "#666" }}>
+                              <motion.button whileTap={{ scale: 0.8 }} onClick={() => updateQuantity(item.id, item.quantity - 1)} style={{ width: "36px", height: "36px", display: "flex", alignItems: "center", justifyContent: "center", background: "none", border: "none", cursor: "pointer", color: "#666" }}>
                                 <Minus size={9} />
                               </motion.button>
-                              <span style={{ width: "24px", textAlign: "center", fontSize: "10px" }}>{item.quantity}</span>
-                              <motion.button whileTap={{ scale: 0.8 }} onClick={() => updateQuantity(item.id, item.quantity + 1)} style={{ width: "24px", height: "24px", display: "flex", alignItems: "center", justifyContent: "center", background: "none", border: "none", cursor: "pointer", color: "#666" }}>
+                              <span style={{ width: "28px", textAlign: "center", fontSize: "11px" }}>{item.quantity}</span>
+                              <motion.button whileTap={{ scale: 0.8 }} onClick={() => updateQuantity(item.id, item.quantity + 1)} style={{ width: "36px", height: "36px", display: "flex", alignItems: "center", justifyContent: "center", background: "none", border: "none", cursor: "pointer", color: "#666" }}>
                                 <Plus size={9} />
                               </motion.button>
                             </div>
