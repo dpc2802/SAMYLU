@@ -1,6 +1,12 @@
 import StaticCatalog from "@/components/shop/StaticCatalog";
 import { getLiveProducts } from "@/db/queries/products";
 import { Suspense } from "react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Colección",
+  description: "Alta costura y ready-to-wear de Samylú. Vestidos de gala, conjuntos y blusas.",
+};
 
 export default async function ShopPage() {
   const liveProducts = await getLiveProducts();

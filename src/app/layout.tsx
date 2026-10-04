@@ -2,10 +2,8 @@
 import { Playfair_Display, Inter } from 'next/font/google';
 import './globals.css';
 import { SITE_NAME, SITE_TAGLINE } from '@/lib/constants';
-import Header from '@/components/layout/Header';
 import SlideOverCart from '@/components/layout/SlideOverCart';
 import WhatsAppBtn from '@/components/layout/WhatsAppBtn';
-import MinimalCookieBanner from '@/components/layout/MinimalCookieBanner';
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -42,11 +40,9 @@ export default function RootLayout({
   return (
     <html lang='es' translate='no' className={playfair.variable + ' ' + inter.variable}>
       <body className='bg-white text-black antialiased font-sans'>
-        <Header />
         <SlideOverCart />
-        <main>{children}</main>
+        {children}
         <WhatsAppBtn />
-        <MinimalCookieBanner />
       </body>
     </html>
   );

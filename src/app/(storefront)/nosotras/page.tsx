@@ -23,7 +23,7 @@ export default function NosotrasPage() {
 
       {/* Image full */}
       <div style={{ position: "relative", width: "100%", height: "60vh", backgroundColor: "#f5f5f5", marginBottom: "80px" }}>
-        <Image src="/images/feat-01.png" alt="Atelier SAMYLÚ" fill style={{ objectFit: "cover", objectPosition: "center 20%" }} />
+        <Image src="/images/feat-01.png" alt="Atelier SAMYLÚ" fill priority sizes="100vw" style={{ objectFit: "cover", objectPosition: "center 20%" }} />
       </div>
 
       {/* Philosophy */}

@@ -42,7 +42,7 @@ export default function HeroVideo() {
         <video
           ref={videoRef}
           src="/videos/hero-runway.mp4"
-          poster="/images/hero-poster.jpg"
+          poster="/images/look-01.jpg"
           autoPlay
           loop
           muted

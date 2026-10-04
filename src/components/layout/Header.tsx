@@ -92,9 +92,9 @@ export default function Header() {
           
           {/* Logo */}
           <Link href="/" className={cn("flex-shrink-0 transition-opacity hover:opacity-70", col)} style={{ textDecoration: "none" }}>
-            <h1 style={{ fontFamily: "var(--font-serif)", fontSize: "1.75rem", fontWeight: 400, letterSpacing: "0.02em", margin: 0, lineHeight: 1 }}>
+            <span style={{ display: "block", fontFamily: "var(--font-serif)", fontSize: "1.75rem", fontWeight: 400, letterSpacing: "0.02em", margin: 0, lineHeight: 1 }}>
               SAMYLÚ
-            </h1>
+            </span>
           </Link>
 
           {/* Desktop Nav Links */}

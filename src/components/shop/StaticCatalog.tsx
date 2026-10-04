@@ -212,7 +212,7 @@ export default function StaticCatalog({ products: PRODUCTOS }: { products: Produ
   );
 
   return (
-    <div style={{ padding: "0 6vw 120px" }}>
+    <div style={{ padding: "0 6vw clamp(64px, 8vw, 120px)" }}>
       <style dangerouslySetInnerHTML={{ __html: `
         /* ── RESPONSIVE GRID ── */
         .cat-grid {
@@ -362,7 +362,7 @@ export default function StaticCatalog({ products: PRODUCTOS }: { products: Produ
 
               {/* ── LOAD MORE ── */}
               {hasMore && (
-                <div style={{ textAlign: "center", marginTop: "120px" }}>
+                <div style={{ textAlign: "center", marginTop: "clamp(48px, 8vw, 120px)" }}>
                   <button
                     onClick={() => setVisibleCount(v => v + PAGE_SIZE)}
                     style={{ background: "none", borderBottom: "1px solid #000", padding: "0 0 8px 0", fontSize: "9px", letterSpacing: "0.4em", textTransform: "uppercase", cursor: "pointer", color: "#000", transition: "opacity 0.3s" }}

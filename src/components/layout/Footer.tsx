@@ -48,7 +48,7 @@ export default function Footer() {
           </a>
 
           <h3 style={{ fontSize: "9px", letterSpacing: "0.3em", textTransform: "uppercase", color: "#555", marginBottom: "12px" }}>Encuéntranos</h3>
-          <p style={{ fontSize: "12px", color: "#ccc", margin: "0 0 4px 0", lineHeight: 1.6 }}>📍 Carrera 37 #42-75</p>
+          <p style={{ fontSize: "12px", color: "#ccc", margin: "0 0 4px 0", lineHeight: 1.6 }}>Carrera 37 #42-75</p>
           <p style={{ fontSize: "12px", color: "#ccc", margin: 0, lineHeight: 1.6 }}>Cabecera, Bucaramanga</p>
         </div>
 
@@ -56,7 +56,7 @@ export default function Footer() {
 
       {/* Bottom Bar */}
       <div style={{ padding: "0 6vw", display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", borderTop: "1px solid #1a1a1a", paddingTop: "24px", gap: "16px" }}>
-        <p style={{ fontSize: "10px", color: "#555", margin: 0 }}>&copy; 2025 SAMYLÚ by Martha Cepeda. Todos los derechos reservados.</p>
+        <p style={{ fontSize: "10px", color: "#555", margin: 0 }}>&copy; {new Date().getFullYear()} SAMYLÚ by Martha Cepeda. Todos los derechos reservados.</p>
         <div style={{ display: "flex", gap: "24px" }}>
           <Link href="/privacidad" style={{ fontSize: "10px", color: "#555", textDecoration: "none" }} className="hover:text-white transition-colors">Privacidad</Link>
           <Link href="/terminos" style={{ fontSize: "10px", color: "#555", textDecoration: "none" }} className="hover:text-white transition-colors">Términos</Link>
