@@ -57,6 +57,7 @@ export default function StaticCatalog({ products: PRODUCTOS }: { products: Produ
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState("todo");
   const [activeSize, setActiveSize] = useState<string | null>(null);
+  const [activeColor, setActiveColor] = useState<string | null>(null);
   const [maxPrice, setMaxPrice] = useState(2000000);
   const [sortBy, setSortBy] = useState("destacados");
   const [showSortMenu, setShowSortMenu] = useState(false);
@@ -71,7 +72,12 @@ export default function StaticCatalog({ products: PRODUCTOS }: { products: Produ
     if (cat) setActiveCategory(cat);
   }, [searchParams]);
 
-  useEffect(() => { setVisibleCount(PAGE_SIZE); }, [activeCategory, activeSize, maxPrice, sortBy, searchQuery]);
+  useEffect(() => { setVisibleCount(PAGE_SIZE); }, [activeCategory, activeSize, activeColor, maxPrice, sortBy, searchQuery]);
+
+  // Colores disponibles (solo se muestran si hay mas de uno)
+  const colorOptions = [...new Set(PRODUCTOS.map((p) => p.color).filter((c) => c && /^#[0-9a-f]{3,8}$/i.test(c)))];
+  const hasFilters = activeCategory !== "todo" || !!activeSize || !!activeColor;
+  const resetFilters = () => { setActiveCategory("todo"); setActiveSize(null); setActiveColor(null); setMaxPrice(2000000); };
 
   // Filter
   let filtered = PRODUCTOS.filter((p) => {
@@ -84,6 +90,7 @@ export default function StaticCatalog({ products: PRODUCTOS }: { products: Produ
       if (activeCategory === "conjuntos" && !["conjunto", "blusa", "top", "falda"].some(k => p.type.toLowerCase().includes(k))) return false;
     }
     if (activeSize && !p.size.includes(activeSize)) return false;
+    if (activeColor && p.color !== activeColor) return false;
     if (p.price > maxPrice) return false;
     return true;
   });
@@ -194,6 +201,19 @@ export default function StaticCatalog({ products: PRODUCTOS }: { products: Produ
         </div>
       </div>
 
+      {colorOptions.length > 1 && (
+        <div style={{ marginBottom: "40px" }}>
+          <h3 style={{ fontSize: "8px", letterSpacing: "0.4em", textTransform: "uppercase", color: "#999", margin: "0 0 20px" }}>Color</h3>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "4px" }}>
+            {colorOptions.map((c) => (
+              <button key={c} className={`cat-swatch ${activeColor === c ? "on" : ""}`} onClick={() => setActiveColor(activeColor === c ? null : c)} aria-label={`Filtrar por color ${c}`} aria-pressed={activeColor === c}>
+                <span style={{ background: c }} />
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div style={{ marginBottom: "40px" }}>
         <h3 style={{ fontSize: "8px", letterSpacing: "0.4em", textTransform: "uppercase", color: "#999", margin: "0 0 20px" }}>Precio máximo</h3>
         <input type="range" min={100000} max={2000000} step={50000} value={maxPrice} onChange={e => setMaxPrice(Number(e.target.value))}
@@ -202,7 +222,7 @@ export default function StaticCatalog({ products: PRODUCTOS }: { products: Produ
       </div>
 
       <button
-        onClick={() => { setActiveCategory("todo"); setActiveSize(null); setMaxPrice(2000000); }}
+        onClick={() => { setActiveCategory("todo"); setActiveSize(null); setActiveColor(null); setMaxPrice(2000000); }}
         style={{ background: "none", border: "none", borderBottom: "1px solid #000", padding: "0 0 4px 0", fontSize: "8px", letterSpacing: "0.3em", textTransform: "uppercase", cursor: "pointer", color: "#000", transition: "opacity 0.3s" }}
         className="hover:opacity-50"
       >
@@ -226,6 +246,18 @@ export default function StaticCatalog({ products: PRODUCTOS }: { products: Produ
         @media (min-width: 1200px) {
           .cat-grid { grid-template-columns: repeat(3, 1fr); gap: 80px 40px; }
         }
+
+        /* ── CHIPS MOVIL ── */
+        .cat-chips { display: flex; gap: 8px; overflow-x: auto; margin: -24px -6vw 32px; padding: 0 6vw 4px; scrollbar-width: none; scroll-snap-type: x proximity; }
+        .cat-chips::-webkit-scrollbar { display: none; }
+        .cat-chip { flex: 0 0 auto; min-height: 40px; padding: 0 18px; border: 1px solid #e5e5e5; border-radius: 40px; background: #fff; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: #666; cursor: pointer; white-space: nowrap; transition: all 0.25s; scroll-snap-align: start; }
+        .cat-chip.on { background: #000; border-color: #000; color: #fff; }
+        .cat-chip.clear { border-style: dashed; color: #999; }
+        .cat-chip-sep { flex: 0 0 1px; background: #e5e5e5; margin: 8px 4px; }
+        .cat-swatch { flex: 0 0 40px; height: 40px; border: none; background: none; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .cat-swatch span { display: block; width: 20px; height: 20px; border-radius: 50%; border: 1px solid #ddd; transition: box-shadow 0.2s; }
+        .cat-swatch.on span { box-shadow: 0 0 0 2px #fff, 0 0 0 3px #000; }
+        @media (min-width: 768px) { .cat-chips { display: none; } }
 
         /* ── SIDEBAR ── */
         .cat-sidebar { display: none; }
@@ -279,6 +311,34 @@ export default function StaticCatalog({ products: PRODUCTOS }: { products: Produ
         </div>
       </div>
 
+      {/* ── CHIPS RAPIDOS (movil) ── */}
+      <div className="cat-chips" role="group" aria-label="Filtros rápidos">
+        {CATEGORIAS.map((cat) => (
+          <button key={cat.id} className={`cat-chip ${activeCategory === cat.id ? "on" : ""}`} onClick={() => setActiveCategory(cat.id)}>
+            {cat.label}
+          </button>
+        ))}
+        <span className="cat-chip-sep" />
+        {TALLAS.map((t) => (
+          <button key={t} className={`cat-chip ${activeSize === t ? "on" : ""}`} onClick={() => setActiveSize(activeSize === t ? null : t)} aria-pressed={activeSize === t}>
+            {t}
+          </button>
+        ))}
+        {colorOptions.length > 1 && (
+          <>
+            <span className="cat-chip-sep" />
+            {colorOptions.map((c) => (
+              <button key={c} className={`cat-swatch ${activeColor === c ? "on" : ""}`} onClick={() => setActiveColor(activeColor === c ? null : c)} aria-label={`Filtrar por color ${c}`} aria-pressed={activeColor === c}>
+                <span style={{ background: c }} />
+              </button>
+            ))}
+          </>
+        )}
+        {hasFilters && (
+          <button className="cat-chip clear" onClick={resetFilters}>Limpiar</button>
+        )}
+      </div>
+
       {/* ── LAYOUT ── */}
       <div style={{ display: "flex", gap: "80px", alignItems: "flex-start" }}>
 
@@ -292,7 +352,7 @@ export default function StaticCatalog({ products: PRODUCTOS }: { products: Produ
               <p style={{ fontSize: "10px", letterSpacing: "0.25em", textTransform: "uppercase", color: "#bbb" }}>
                 Sin resultados para esta selección
               </p>
-              <button onClick={() => { setActiveCategory("todo"); setActiveSize(null); setMaxPrice(2000000); }}
+              <button onClick={() => { setActiveCategory("todo"); setActiveSize(null); setActiveColor(null); setMaxPrice(2000000); }}
                 style={{ marginTop: "32px", background: "none", borderBottom: "1px solid #000", padding: "0 0 4px 0", fontSize: "9px", letterSpacing: "0.3em", textTransform: "uppercase", cursor: "pointer", color: "#000" }}>
                 Ver Colección Completa
               </button>
